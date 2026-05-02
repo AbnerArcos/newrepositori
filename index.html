@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>La Cantina — Menú Digital</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -390,7 +391,145 @@
   }
   .modal-close:hover { background: rgba(0,0,0,0.7); }
 
+  /* ===== ADDRESS MODAL ===== */
+  .addr-backdrop {
+    position: fixed; inset: 0; z-index: 400;
+    background: rgba(0,0,0,0); transition: background .3s; pointer-events: none;
+  }
+  .addr-backdrop.open { background: rgba(0,0,0,0.55); pointer-events: all; }
+  .addr-modal {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 401;
+    background: var(--bg); border-radius: 24px 24px 0 0;
+    max-height: 95vh; display: flex; flex-direction: column;
+    transform: translateY(110%);
+    transition: transform .38s cubic-bezier(.4,0,.2,1);
+    overflow: hidden;
+  }
+  .addr-modal.open { transform: translateY(0); }
+  .addr-header {
+    display: flex; align-items: center; gap: 10px;
+    padding: 14px 16px 10px; flex-shrink: 0;
+    background: var(--white); border-bottom: 1.5px solid var(--border);
+  }
+  .addr-back {
+    width: 34px; height: 34px; border-radius: 50%;
+    border: 1.5px solid var(--border); background: var(--white);
+    font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+    color: var(--text); flex-shrink: 0;
+  }
+  .addr-title { font-size: 16px; font-weight: 700; }
+  .addr-map-wrap {
+    position: relative; flex-shrink: 0;
+    height: 260px; background: #e8f0e8;
+    overflow: hidden;
+  }
+  .addr-map { width: 100%; height: 100%; }
+  /* Pin centrado sobre el mapa */
+  .addr-pin {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -100%);
+    display: flex; flex-direction: column; align-items: center;
+    pointer-events: none; z-index: 10;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.35));
+    transition: transform .15s ease;
+  }
+  .addr-pin.bouncing {
+    animation: pinBounce .4s ease;
+  }
+  @keyframes pinBounce {
+    0%   { transform: translate(-50%, -100%) scale(1); }
+    30%  { transform: translate(-50%, -120%) scale(1.1); }
+    60%  { transform: translate(-50%, -95%) scale(0.95); }
+    100% { transform: translate(-50%, -100%) scale(1); }
+  }
+  .addr-pin-icon { line-height: 1; }
+  .addr-pin-shadow {
+    width: 14px; height: 5px; background: rgba(0,0,0,0.25);
+    border-radius: 50%; margin-top: 2px;
+  }
+  /* Botón de geolocalización */
+  .addr-locate-btn {
+    position: absolute; bottom: 12px; right: 12px; z-index: 10;
+    width: 40px; height: 40px; border-radius: 50%;
+    background: var(--white); border: 1.5px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    color: var(--green); transition: background .15s;
+  }
+  .addr-locate-btn:active { background: var(--border); }
+  /* Body del modal */
+  .addr-body { padding: 16px; overflow-y: auto; flex: 1; }
+  .addr-street-row {
+    display: flex; align-items: flex-start; gap: 10px;
+    background: var(--white); border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm); padding: 12px;
+    margin-bottom: 14px; min-height: 52px;
+  }
+  .addr-street-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+  .addr-street-text { font-size: 14px; color: var(--text); line-height: 1.4; flex: 1; word-break: break-word; }
+  .addr-field-label { font-size: 13px; font-weight: 700; margin-bottom: 8px; color: var(--text-muted); }
+  .addr-specs {
+    width: 100%; padding: 12px 14px;
+    border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+    font-family: 'DM Sans', sans-serif; font-size: 14px;
+    resize: none; background: var(--white); color: var(--text);
+    outline: none; transition: border-color .2s; margin-bottom: 16px;
+  }
+  .addr-specs:focus { border-color: var(--green); }
+  .addr-confirm-btn {
+    width: 100%; padding: 16px;
+    background: var(--green); border: none; border-radius: 50px;
+    color: var(--white); font-family: 'DM Sans', sans-serif;
+    font-size: 16px; font-weight: 700; cursor: pointer;
+    transition: background .2s, transform .15s;
+    box-shadow: 0 6px 20px rgba(37,211,102,0.35);
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .addr-confirm-btn:active { transform: scale(.98); background: var(--green-deep); }
+  .addr-confirm-btn:disabled {
+    background: #ccc; cursor: not-allowed; box-shadow: none;
+    opacity: 0.7; transform: none;
+  }
+  .addr-confirm-btn:disabled:active { transform: none; background: #ccc; }
+  .addr-required-hint {
+    font-size: 12px; color: var(--red); font-weight: 600;
+    text-align: center; margin-bottom: 10px;
+    display: none; align-items: center; justify-content: center; gap: 4px;
+  }
+  .addr-required-hint.visible { display: flex; }
+  .addr-street-row.required {
+    border-color: var(--red);
+    background: rgba(232,39,26,0.05);
+  }
+
   section[data-section] { scroll-margin-top: calc(var(--header-h) + 56px + 12px); }
+
+  /* EXTRAS EN CARRITO */
+  .cart-extras {
+    margin-top: 8px;
+    border-top: 1px dashed var(--border);
+    padding-top: 8px;
+  }
+  .cart-extras-label {
+    font-size: 10px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 1px; color: var(--text-muted); margin-bottom: 6px;
+  }
+  .cart-extra-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 4px 0; gap: 8px;
+  }
+  .cart-extra-name { font-size: 12px; color: var(--text); flex: 1; }
+  .cart-extra-price { font-size: 12px; font-weight: 600; color: var(--text); }
+  .cart-extra-ctrl { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+  .cart-extra-btn {
+    width: 24px; height: 24px; border-radius: 50%;
+    border: 1.5px solid var(--green); color: var(--green);
+    background: transparent; font-size: 16px; font-weight: 700;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: background .15s, color .15s; line-height: 1;
+  }
+  .cart-extra-btn:active { background: var(--green); color: var(--white); }
+  .cart-extra-qty { font-size: 13px; font-weight: 700; min-width: 14px; text-align: center; }
 </style>
 </head>
 <body>
@@ -478,6 +617,58 @@
   </div>
 </div>
 
+<!-- ADDRESS MODAL -->
+<div class="addr-backdrop" id="addrBackdrop"></div>
+<div class="addr-modal" id="addrModal" role="dialog" aria-modal="true">
+  <div class="addr-header">
+    <button class="addr-back" id="addrBack">←</button>
+    <span class="addr-title">¿A dónde te lo enviamos?</span>
+  </div>
+  <div class="addr-map-wrap">
+    <div id="addrMap" class="addr-map"></div>
+    <!-- Muñequito centrado -->
+    <div class="addr-pin" id="addrPin">
+      <div class="addr-pin-icon">
+        <svg width="44" height="54" viewBox="0 0 44 54" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Sombra del pin -->
+          <ellipse cx="22" cy="52" rx="8" ry="3" fill="rgba(0,0,0,0.18)"/>
+          <!-- Cuerpo del pin (gota) -->
+          <path d="M22 2C13.163 2 6 9.163 6 18c0 11.25 16 32 16 32s16-20.75 16-32C38 9.163 30.837 2 22 2z" fill="#25D366" stroke="white" stroke-width="2"/>
+          <!-- Cabeza del muñeco -->
+          <circle cx="22" cy="13" r="4.5" fill="white"/>
+          <!-- Cuerpo del muñeco -->
+          <path d="M15 26c0-3.866 3.134-7 7-7h0c3.866 0 7 3.134 7 7v2H15v-2z" fill="white"/>
+          <!-- Brazos -->
+          <line x1="11" y1="22" x2="15" y2="25" stroke="white" stroke-width="2" stroke-linecap="round"/>
+          <line x1="33" y1="22" x2="29" y2="25" stroke="white" stroke-width="2" stroke-linecap="round"/>
+          <!-- Piernas -->
+          <line x1="18" y1="28" x2="16" y2="34" stroke="white" stroke-width="2" stroke-linecap="round"/>
+          <line x1="26" y1="28" x2="28" y2="34" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="addr-pin-shadow"></div>
+    </div>
+    <div class="addr-locate-btn" id="addrLocate" title="Mi ubicación">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/><circle cx="12" cy="12" r="9" stroke-dasharray="4 2"/></svg>
+    </div>
+  </div>
+  <div class="addr-body">
+    <div class="addr-street-row" id="addrStreetRow">
+      <div class="addr-street-icon">🏠</div>
+      <div class="addr-street-text" id="addrStreetText">Mueve el mapa para seleccionar tu dirección</div>
+    </div>
+    <div class="addr-field-label">Especificaciones <span style="color:var(--red)">*</span> <span style="font-weight:400;color:var(--text-muted)">(requerido)</span></div>
+    <textarea class="addr-specs" id="addrSpecs" rows="2" placeholder="Ej: Depto 3B, portón azul, entre calles…"></textarea>
+    <div class="addr-required-hint" id="addrRequiredHint">
+      ⚠️ Mueve el mapa a tu dirección y agrega especificaciones
+    </div>
+    <button class="addr-confirm-btn" id="addrConfirm" disabled>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+      Confirmar y enviar por WhatsApp
+    </button>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
@@ -554,6 +745,7 @@ document.addEventListener('DOMContentLoaded', () => {
   bindModal();
   bindCartBar();
   bindDrawer();
+  bindAddrModal();
   startScrollSpy();
 });
 
@@ -833,10 +1025,18 @@ function addToCartFromModal() {
 }
 
 /* ============= CART STATE ============= */
+function recoKey(recos) {
+  return (recos || []).map(r => r.id).sort().join(',');
+}
+
 function addToCart(product, qty, notes, recos) {
-  const existing = cart.find(i => i.product.id === product.id && i.notes === notes);
+  const existing = cart.find(i =>
+    i.product.id === product.id &&
+    i.notes === notes &&
+    recoKey(i.recos) === recoKey(recos)
+  );
   if (existing) existing.qty += qty;
-  else cart.push({ product, qty, notes, recos });
+  else cart.push({ product, qty, notes, recos: recos ? [...recos] : [] });
   showToast(`${product.name} agregado 🎉`);
   renderCartBar();
   renderDrawer();
@@ -890,7 +1090,6 @@ function renderCartBar() {
 function bindDrawer() {
   document.getElementById('drawerClose').addEventListener('click', closeDrawer);
   document.getElementById('drawerBackdrop').addEventListener('click', closeDrawer);
-  document.getElementById('payBtn').addEventListener('click', sendWhatsApp);
 }
 
 function openDrawer() {
@@ -906,6 +1105,24 @@ function closeDrawer() {
   document.body.style.overflow = '';
 }
 
+function removeReco(itemIdx, recoId) {
+  const item = cart[itemIdx];
+  if (!item) return;
+  const i = item.recos.findIndex(r => r.id === recoId);
+  if (i >= 0) item.recos.splice(i, 1);
+  renderCartBar();
+  renderDrawer();
+}
+
+function addRecoToItem(itemIdx, recoId) {
+  const item = cart[itemIdx];
+  if (!item) return;
+  const r = recoProducts.find(x => x.id === recoId);
+  if (r) item.recos.push(r);
+  renderCartBar();
+  renderDrawer();
+}
+
 function renderDrawer() {
   const body = document.getElementById('drawerBody');
   const total = document.getElementById('drawerTotal');
@@ -918,20 +1135,30 @@ function renderDrawer() {
   cart.forEach((item, idx) => {
     const wrap = document.createElement('div');
     wrap.className = 'cart-item-wrap';
+
     const deleteBg = document.createElement('div');
     deleteBg.className = 'cart-item-delete-bg';
     deleteBg.innerHTML = `<div class="delete-label">🗑 Eliminar</div>`;
     deleteBg.addEventListener('click', () => removeFromCart(idx));
+
     const el = document.createElement('div');
     el.className = 'cart-item';
-    const recoStr = (item.recos || []).map(r => r.name).join(', ');
+    el.style.flexDirection = 'column';
+    el.style.alignItems = 'stretch';
+
+    const recoSum = (item.recos || []).reduce((s, r) => s + r.price, 0);
+    const unitPrice = item.product.price + recoSum;
     const noteStr = item.notes ? '📝 ' + item.notes : '';
-    el.innerHTML = `
+
+    // Top row: image + name/price + qty controls
+    const topRow = document.createElement('div');
+    topRow.style.cssText = 'display:flex;align-items:center;gap:12px;';
+    topRow.innerHTML = `
       <img class="cart-item-img" src="${item.product.img}" alt="${item.product.name}">
-      <div class="cart-item-info">
+      <div class="cart-item-info" style="flex:1;min-width:0;">
         <div class="cart-item-name">${item.product.name}</div>
-        <div class="cart-item-price">$${item.product.price * item.qty}</div>
-        ${noteStr || recoStr ? `<div class="cart-item-note">${[noteStr, recoStr].filter(Boolean).join(' · ')}</div>` : ''}
+        <div class="cart-item-price">$${unitPrice * item.qty}</div>
+        ${noteStr ? `<div class="cart-item-note">${noteStr}</div>` : ''}
       </div>
       <div class="cart-qty-ctrl">
         ${item.qty === 1
@@ -941,7 +1168,7 @@ function renderDrawer() {
         <button class="cart-qty-btn" data-idx="${idx}" data-action="plus">+</button>
       </div>
     `;
-    el.addEventListener('click', e => {
+    topRow.addEventListener('click', e => {
       const btn = e.target.closest('[data-action]');
       if (!btn) return;
       const i = parseInt(btn.dataset.idx);
@@ -949,6 +1176,44 @@ function renderDrawer() {
       else if (btn.dataset.action === 'minus') changeQty(i, -1);
       else if (btn.dataset.action === 'del') showDeleteSwipe(wrap, deleteBg, el);
     });
+    el.appendChild(topRow);
+
+    // Extras section (grouped by id, each shown as individual removable row)
+    if (item.recos && item.recos.length > 0) {
+      // Build unique list with counts to render each instance separately
+      const extrasSection = document.createElement('div');
+      extrasSection.className = 'cart-extras';
+      extrasSection.innerHTML = `<div class="cart-extras-label">Extras</div>`;
+
+      // Group by id but render one row per unique id with qty
+      const seen = {};
+      item.recos.forEach(r => {
+        if (!seen[r.id]) {
+          seen[r.id] = { r, count: 0 };
+        }
+        seen[r.id].count++;
+      });
+
+      Object.values(seen).forEach(({ r, count }) => {
+        const row = document.createElement('div');
+        row.className = 'cart-extra-row';
+        row.innerHTML = `
+          <span class="cart-extra-name">${r.name}</span>
+          <span class="cart-extra-price">$${r.price * count}</span>
+          <div class="cart-extra-ctrl">
+            <button class="cart-extra-btn minus" title="Quitar">−</button>
+            <span class="cart-extra-qty">${count}</span>
+            <button class="cart-extra-btn plus" title="Agregar">+</button>
+          </div>
+        `;
+        row.querySelector('.cart-extra-btn.minus').addEventListener('click', () => removeReco(idx, r.id));
+        row.querySelector('.cart-extra-btn.plus').addEventListener('click', () => addRecoToItem(idx, r.id));
+        extrasSection.appendChild(row);
+      });
+
+      el.appendChild(extrasSection);
+    }
+
     wrap.appendChild(deleteBg);
     wrap.appendChild(el);
     body.appendChild(wrap);
@@ -980,9 +1245,141 @@ function setupSwipe(el, wrap, bg, idx) {
   });
 }
 
+/* ============= ADDRESS MODAL ============= */
+let addrMap = null;
+let addrMarker = null;
+let addrLat = 19.847, addrLng = -90.5209; // Campeche centro
+let addrLabel = '';
+let addrGeocodeTimer = null;
+let addrMapMoved = false; // rastrea si el usuario movió el mapa
+
+function updateConfirmBtn() {
+  const specs = document.getElementById('addrSpecs').value.trim();
+  const btn = document.getElementById('addrConfirm');
+  const hint = document.getElementById('addrRequiredHint');
+  const streetRow = document.getElementById('addrStreetRow');
+  const ready = addrMapMoved && specs.length > 0;
+  btn.disabled = !ready;
+  hint.classList.toggle('visible', !ready);
+  streetRow.classList.toggle('required', !addrMapMoved);
+}
+
+function openAddrModal() {
+  if (cart.length === 0) { showToast('Tu canasta está vacía'); return; }
+  addrMapMoved = false;
+  document.getElementById('addrSpecs').value = '';
+  document.getElementById('addrBackdrop').classList.add('open');
+  document.getElementById('addrModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  updateConfirmBtn();
+  // Init map once
+  setTimeout(() => {
+    if (!addrMap) initAddrMap();
+    else addrMap.invalidateSize();
+  }, 50);
+}
+
+function closeAddrModal() {
+  document.getElementById('addrBackdrop').classList.remove('open');
+  document.getElementById('addrModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function initAddrMap() {
+  // Load Leaflet script dynamically
+  if (!window.L) {
+    const s = document.createElement('script');
+    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js';
+    s.onload = () => setupLeaflet();
+    document.head.appendChild(s);
+  } else {
+    setupLeaflet();
+  }
+}
+
+function setupLeaflet() {
+  addrMap = L.map('addrMap', { zoomControl: false, attributionControl: false }).setView([addrLat, addrLng], 16);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(addrMap);
+  L.control.zoom({ position: 'bottomleft' }).addTo(addrMap);
+
+  // Animar muñequito cuando el mapa se mueve
+  addrMap.on('movestart', () => {
+    const pin = document.getElementById('addrPin');
+    if (pin) {
+      pin.style.transition = 'transform .15s ease';
+      pin.style.transform = 'translate(-50%, -115%) scale(1.08)';
+    }
+  });
+
+  // On map move, reverse geocode center
+  addrMap.on('moveend', () => {
+    const pin = document.getElementById('addrPin');
+    if (pin) {
+      pin.style.transition = 'transform .2s ease';
+      pin.style.transform = 'translate(-50%, -100%) scale(1)';
+      pin.classList.remove('bouncing');
+      void pin.offsetWidth; // reflow
+      pin.classList.add('bouncing');
+      setTimeout(() => pin.classList.remove('bouncing'), 400);
+    }
+    const c = addrMap.getCenter();
+    addrLat = c.lat; addrLng = c.lng;
+    addrMapMoved = true;
+    reverseGeocode(addrLat, addrLng);
+    updateConfirmBtn();
+  });
+  reverseGeocode(addrLat, addrLng);
+}
+
+function reverseGeocode(lat, lng) {
+  const el = document.getElementById('addrStreetText');
+  el.textContent = 'Buscando dirección…';
+  clearTimeout(addrGeocodeTimer);
+  addrGeocodeTimer = setTimeout(() => {
+    fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json&accept-language=es`)
+      .then(r => r.json())
+      .then(d => {
+        const a = d.address || {};
+        const parts = [
+          a.road || a.pedestrian || a.footway || '',
+          a.house_number || '',
+          a.suburb || a.neighbourhood || a.quarter || '',
+          a.city || a.town || a.village || a.municipality || ''
+        ].filter(Boolean);
+        addrLabel = parts.join(', ') || d.display_name || 'Dirección seleccionada';
+        el.textContent = addrLabel;
+      })
+      .catch(() => { addrLabel = `${lat.toFixed(5)}, ${lng.toFixed(5)}`; el.textContent = addrLabel; });
+  }, 600);
+}
+
+function geolocateUser() {
+  if (!navigator.geolocation) { showToast('Geolocalización no disponible'); return; }
+  navigator.geolocation.getCurrentPosition(pos => {
+    addrLat = pos.coords.latitude;
+    addrLng = pos.coords.longitude;
+    addrMapMoved = true;
+    if (addrMap) addrMap.setView([addrLat, addrLng], 17);
+    else initAddrMap();
+    updateConfirmBtn();
+  }, () => showToast('No se pudo obtener tu ubicación'));
+}
+
+function bindAddrModal() {
+  document.getElementById('payBtn').addEventListener('click', openAddrModal);
+  document.getElementById('addrBack').addEventListener('click', closeAddrModal);
+  document.getElementById('addrBackdrop').addEventListener('click', closeAddrModal);
+  document.getElementById('addrLocate').addEventListener('click', geolocateUser);
+  document.getElementById('addrConfirm').addEventListener('click', sendWhatsApp);
+  document.getElementById('addrSpecs').addEventListener('input', updateConfirmBtn);
+}
+
 /* ============= WHATSAPP ============= */
 function sendWhatsApp() {
   if (cart.length === 0) { showToast('Tu canasta está vacía'); return; }
+  const specs = document.getElementById('addrSpecs').value.trim();
+  if (!addrMapMoved) { showToast('Por favor selecciona tu ubicación en el mapa'); return; }
+  if (!specs) { showToast('Por favor agrega las especificaciones de tu dirección'); return; }
   const WA_NUMBER = '529811064643';
   let msg = '🛵 *Nuevo Pedido — La Cantina*\n';
   msg += '━━━━━━━━━━━━━━━━━━━━\n\n';
@@ -994,19 +1391,23 @@ function sendWhatsApp() {
     msg += `   Precio unitario: $${unitPrice}\n`;
     msg += `   Subtotal: $${unitPrice * item.qty}\n`;
     if (item.recos && item.recos.length > 0) {
-      const recoNames = item.recos.map(r => r.name).join(', ');
-      msg += `   Extras: ${recoNames}\n`;
+      const recoMap = {};
+      item.recos.forEach(r => { recoMap[r.name] = (recoMap[r.name]||0)+1; });
+      const recoStr = Object.entries(recoMap).map(([n,q]) => q>1?`${n} x${q}`:n).join(', ');
+      msg += `   ➕ Extras: ${recoStr}\n`;
     }
-    if (item.notes) {
-      msg += `   📝 Notas: ${item.notes}\n`;
-    }
+    if (item.notes) msg += `   📝 Notas: ${item.notes}\n`;
     msg += '\n';
   });
   msg += '━━━━━━━━━━━━━━━━━━━━\n';
   msg += `💰 *Total: $${cartTotal()}*\n\n`;
+  msg += `📍 *Dirección:* ${addrLabel || 'No especificada'}\n`;
+  if (specs) msg += `🏠 *Especificaciones:* ${specs}\n`;
+  msg += `🗺️ https://www.google.com/maps?q=${addrLat},${addrLng}\n\n`;
   msg += '¡Gracias por tu pedido! 🙌';
   const url = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
   window.open(url, '_blank');
+  closeAddrModal();
 }
 
 /* ============= TOAST ============= */
