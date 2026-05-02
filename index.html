@@ -424,28 +424,35 @@
     overflow: hidden;
   }
   .addr-map { width: 100%; height: 100%; }
-  /* Pin centrado sobre el mapa */
+  /* Pin centrado sobre el mapa — siempre encima de Leaflet */
+  .addr-map-wrap { position: relative !important; }
   .addr-pin {
-    position: absolute; top: 50%; left: 50%;
-    transform: translate(-50%, -100%);
+    position: absolute !important;
+    top: 50% !important; left: 50% !important;
+    transform: translate(-50%, -100%) !important;
     display: flex; flex-direction: column; align-items: center;
-    pointer-events: none; z-index: 10;
-    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.35));
-    transition: transform .15s ease;
+    pointer-events: none;
+    z-index: 9999 !important;
+    filter: drop-shadow(0 4px 10px rgba(0,0,0,0.4));
   }
-  .addr-pin.bouncing {
-    animation: pinBounce .4s ease;
+  .addr-pin.pin-drag {
+    transform: translate(-50%, -115%) scale(1.1) !important;
+    transition: transform .15s ease !important;
   }
-  @keyframes pinBounce {
-    0%   { transform: translate(-50%, -100%) scale(1); }
-    30%  { transform: translate(-50%, -120%) scale(1.1); }
-    60%  { transform: translate(-50%, -95%) scale(0.95); }
+  .addr-pin.pin-drop {
+    animation: pinDrop .35s ease forwards;
+  }
+  @keyframes pinDrop {
+    0%   { transform: translate(-50%, -115%) scale(1.1); }
+    60%  { transform: translate(-50%, -93%)  scale(0.93); }
+    80%  { transform: translate(-50%, -103%) scale(1.03); }
     100% { transform: translate(-50%, -100%) scale(1); }
   }
-  .addr-pin-icon { line-height: 1; }
   .addr-pin-shadow {
-    width: 14px; height: 5px; background: rgba(0,0,0,0.25);
-    border-radius: 50%; margin-top: 2px;
+    width: 14px; height: 5px;
+    background: rgba(0,0,0,0.3);
+    border-radius: 50%;
+    margin-top: 3px;
   }
   /* Botón de geolocalización */
   .addr-locate-btn {
@@ -626,26 +633,16 @@
   </div>
   <div class="addr-map-wrap">
     <div id="addrMap" class="addr-map"></div>
-    <!-- Muñequito centrado -->
+    <!-- Muñequito centrado — z-index 9999 lo mantiene sobre el mapa -->
     <div class="addr-pin" id="addrPin">
-      <div class="addr-pin-icon">
-        <svg width="44" height="54" viewBox="0 0 44 54" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <!-- Sombra del pin -->
-          <ellipse cx="22" cy="52" rx="8" ry="3" fill="rgba(0,0,0,0.18)"/>
-          <!-- Cuerpo del pin (gota) -->
-          <path d="M22 2C13.163 2 6 9.163 6 18c0 11.25 16 32 16 32s16-20.75 16-32C38 9.163 30.837 2 22 2z" fill="#25D366" stroke="white" stroke-width="2"/>
-          <!-- Cabeza del muñeco -->
-          <circle cx="22" cy="13" r="4.5" fill="white"/>
-          <!-- Cuerpo del muñeco -->
-          <path d="M15 26c0-3.866 3.134-7 7-7h0c3.866 0 7 3.134 7 7v2H15v-2z" fill="white"/>
-          <!-- Brazos -->
-          <line x1="11" y1="22" x2="15" y2="25" stroke="white" stroke-width="2" stroke-linecap="round"/>
-          <line x1="33" y1="22" x2="29" y2="25" stroke="white" stroke-width="2" stroke-linecap="round"/>
-          <!-- Piernas -->
-          <line x1="18" y1="28" x2="16" y2="34" stroke="white" stroke-width="2" stroke-linecap="round"/>
-          <line x1="26" y1="28" x2="28" y2="34" stroke="white" stroke-width="2" stroke-linecap="round"/>
-        </svg>
-      </div>
+      <svg width="48" height="60" viewBox="0 0 48 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Cuerpo del pin tipo gota -->
+        <path d="M24 2C14.059 2 6 10.059 6 20c0 13.5 18 38 18 38s18-24.5 18-38C42 10.059 33.941 2 24 2z" fill="#25D366" stroke="white" stroke-width="2.5"/>
+        <!-- Cabeza -->
+        <circle cx="24" cy="15" r="5.5" fill="white"/>
+        <!-- Cuerpo persona -->
+        <path d="M14.5 29c0-5.247 4.253-9.5 9.5-9.5s9.5 4.253 9.5 9.5v2H14.5v-2z" fill="white"/>
+      </svg>
       <div class="addr-pin-shadow"></div>
     </div>
     <div class="addr-locate-btn" id="addrLocate" title="Mi ubicación">
@@ -653,10 +650,6 @@
     </div>
   </div>
   <div class="addr-body">
-    <div class="addr-street-row" id="addrStreetRow">
-      <div class="addr-street-icon">🏠</div>
-      <div class="addr-street-text" id="addrStreetText">Mueve el mapa para seleccionar tu dirección</div>
-    </div>
     <div class="addr-field-label">Especificaciones <span style="color:var(--red)">*</span> <span style="font-weight:400;color:var(--text-muted)">(requerido)</span></div>
     <textarea class="addr-specs" id="addrSpecs" rows="2" placeholder="Ej: Depto 3B, portón azul, entre calles…"></textarea>
     <div class="addr-required-hint" id="addrRequiredHint">
@@ -1272,11 +1265,41 @@ function openAddrModal() {
   document.getElementById('addrModal').classList.add('open');
   document.body.style.overflow = 'hidden';
   updateConfirmBtn();
-  // Init map once
+
   setTimeout(() => {
-    if (!addrMap) initAddrMap();
-    else addrMap.invalidateSize();
-  }, 50);
+    if (!addrMap) {
+      // Primero inicializa el mapa, luego pide ubicación
+      initAddrMap(() => {
+        pedirUbicacion();
+      });
+    } else {
+      addrMap.invalidateSize();
+      pedirUbicacion();
+    }
+  }, 80);
+}
+
+function pedirUbicacion() {
+  if (!navigator.geolocation) {
+    // Sin geolocalización, solo muestra Campeche
+    return;
+  }
+  document.getElementById('addrStreetText').textContent = '📡 Obteniendo tu ubicación…';
+  navigator.geolocation.getCurrentPosition(
+    pos => {
+      addrLat = pos.coords.latitude;
+      addrLng = pos.coords.longitude;
+      addrMapMoved = true;
+      if (addrMap) addrMap.setView([addrLat, addrLng], 17);
+      reverseGeocode(addrLat, addrLng);
+      updateConfirmBtn();
+    },
+    () => {
+      // Si rechaza, queda en Campeche centro
+      document.getElementById('addrStreetText').textContent = 'Mueve el mapa para seleccionar tu dirección';
+    },
+    { timeout: 8000, enableHighAccuracy: true }
+  );
 }
 
 function closeAddrModal() {
@@ -1285,15 +1308,15 @@ function closeAddrModal() {
   document.body.style.overflow = '';
 }
 
-function initAddrMap() {
-  // Load Leaflet script dynamically
+function initAddrMap(callback) {
   if (!window.L) {
     const s = document.createElement('script');
     s.src = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js';
-    s.onload = () => setupLeaflet();
+    s.onload = () => { setupLeaflet(); if (callback) callback(); };
     document.head.appendChild(s);
   } else {
     setupLeaflet();
+    if (callback) callback();
   }
 }
 
@@ -1302,25 +1325,20 @@ function setupLeaflet() {
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(addrMap);
   L.control.zoom({ position: 'bottomleft' }).addTo(addrMap);
 
-  // Animar muñequito cuando el mapa se mueve
   addrMap.on('movestart', () => {
     const pin = document.getElementById('addrPin');
-    if (pin) {
-      pin.style.transition = 'transform .15s ease';
-      pin.style.transform = 'translate(-50%, -115%) scale(1.08)';
-    }
+    if (!pin) return;
+    pin.classList.remove('pin-drop');
+    pin.classList.add('pin-drag');
   });
 
-  // On map move, reverse geocode center
   addrMap.on('moveend', () => {
     const pin = document.getElementById('addrPin');
     if (pin) {
-      pin.style.transition = 'transform .2s ease';
-      pin.style.transform = 'translate(-50%, -100%) scale(1)';
-      pin.classList.remove('bouncing');
-      void pin.offsetWidth; // reflow
-      pin.classList.add('bouncing');
-      setTimeout(() => pin.classList.remove('bouncing'), 400);
+      pin.classList.remove('pin-drag');
+      void pin.offsetWidth;
+      pin.classList.add('pin-drop');
+      setTimeout(() => pin.classList.remove('pin-drop'), 400);
     }
     const c = addrMap.getCenter();
     addrLat = c.lat; addrLng = c.lng;
@@ -1328,7 +1346,6 @@ function setupLeaflet() {
     reverseGeocode(addrLat, addrLng);
     updateConfirmBtn();
   });
-  reverseGeocode(addrLat, addrLng);
 }
 
 function reverseGeocode(lat, lng) {
@@ -1354,15 +1371,7 @@ function reverseGeocode(lat, lng) {
 }
 
 function geolocateUser() {
-  if (!navigator.geolocation) { showToast('Geolocalización no disponible'); return; }
-  navigator.geolocation.getCurrentPosition(pos => {
-    addrLat = pos.coords.latitude;
-    addrLng = pos.coords.longitude;
-    addrMapMoved = true;
-    if (addrMap) addrMap.setView([addrLat, addrLng], 17);
-    else initAddrMap();
-    updateConfirmBtn();
-  }, () => showToast('No se pudo obtener tu ubicación'));
+  pedirUbicacion();
 }
 
 function bindAddrModal() {
