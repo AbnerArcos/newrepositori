@@ -27,6 +27,7 @@
     --amber-light: #FDF3E3;
     --gold: #A9791D;
     --gold-light: #FBF3E2;
+    --green-strong: #0F6B31;
     --radius: 14px;
     --radius-sm: 9px;
     --font-display: 'Figtree', system-ui, -apple-system, sans-serif;
@@ -41,7 +42,7 @@
   /* ===== Modo oscuro ===== */
   html[data-theme="dark"]{
     --green: #34A853;
-    --green-dark: #2E7D46;
+    --green-dark: #4CAF6B;
     --green-light: #113321;
     --ink: #F2F2F0;
     --ink-soft: #B5B5B8;
@@ -58,15 +59,19 @@
     --amber-light: #3A2C13;
     --gold: #E3B24E;
     --gold-light: #332A14;
+    --green-strong: #2E9E58;
     --shadow-card: 0 1px 3px rgba(0,0,0,.35), 0 1px 2px rgba(0,0,0,.3);
     --shadow-sm: 0 2px 8px rgba(0,0,0,.4), 0 1px 3px rgba(0,0,0,.3);
     --shadow-md: 0 8px 24px rgba(0,0,0,.45), 0 2px 6px rgba(0,0,0,.3);
     --shadow-lg: 0 20px 50px rgba(0,0,0,.55), 0 4px 14px rgba(0,0,0,.3);
   }
   html, body{ transition: background-color .25s ease, color .25s ease; }
-  html[data-theme="dark"] .toast{ background:#2A2A2D; }
   html[data-theme="dark"] .modal-overlay{ background:rgba(0,0,0,.65); }
-  html[data-theme="dark"] .app-topbar, html[data-theme="dark"] .app-sidebar{ background:var(--bg); }
+  /* En oscuro los verdes de acento son más claros/brillantes; se usa texto oscuro
+     sobre ellos para mantener buen contraste (en vez de texto blanco). */
+  html[data-theme="dark"] .pill.active,
+  html[data-theme="dark"] .chip-opt.sel,
+  html[data-theme="dark"] .cta-btn{ color:var(--bg); }
 
   *{ box-sizing:border-box; margin:0; padding:0; }
 
@@ -343,8 +348,9 @@
     justify-content:center;
     cursor:pointer;
     animation: bounce 2s infinite;
-    transition: background .25s ease, border-color .25s ease, transform .25s ease;
+    transition: background .25s ease, border-color .25s ease, transform .25s ease, color .25s ease;
     background:var(--surface);
+    color:var(--ink);
   }
   .scroll-hint:hover{
     background: var(--green-light);
@@ -467,7 +473,7 @@
     display:inline-flex;
     align-items:center;
     gap:10px;
-    background:var(--ink);
+    background:var(--green);
     color:#fff;
     font-size:15.5px;
     font-weight:600;
@@ -481,7 +487,7 @@
   .cta-btn:hover{
     transform: translateY(-1px);
     box-shadow: 0 8px 22px -6px rgba(24,24,26,0.35);
-    background: #000;
+    background: var(--green-strong);
   }
   .cta-btn:active{ transform: translateY(0); }
   .cta-btn svg{ width:18px; height:18px; transition: transform .25s ease; }
@@ -703,7 +709,7 @@
   .icon-btn .badge-dot{
     position:absolute; top:-2px; right:-2px;
     width:9px; height:9px; border-radius:50%;
-    background:var(--gold); border:2px solid #fff;
+    background:var(--gold); border:2px solid var(--surface);
     display:none;
   }
   .icon-btn.has-premium .badge-dot{ display:block; }
@@ -715,7 +721,7 @@
     padding:6px 20px 100px;
   }
   .app-body::-webkit-scrollbar{ width:6px; }
-  .app-body::-webkit-scrollbar-thumb{ background:#E0E0DC; border-radius:6px; }
+  .app-body::-webkit-scrollbar-thumb{ background:var(--line-strong); border-radius:6px; }
 
   .screen{ animation: fadeUp .35s ease; }
   .screen[hidden]{ display:none; }
@@ -785,7 +791,7 @@
   .tip-card .tip-icon{ font-size:18px; flex-shrink:0; display:flex; align-items:center; justify-content:center; color:var(--green-dark); }
   .tip-card .tip-icon svg{ width:19px; height:19px; }
   .tip-card b{ color:var(--green-dark); }
-  .tip-card p{ font-size:13px; color:#14532D; line-height:1.5; margin-top:2px; }
+  .tip-card p{ font-size:13px; color:var(--green-dark); line-height:1.5; margin-top:2px; }
 
   .section-label{
     display:flex; align-items:center; justify-content:space-between;
@@ -825,7 +831,7 @@
   .filter-pills{ display:flex; gap:8px; margin-bottom:14px; overflow-x:auto; padding-bottom:2px; }
   .pill{ flex-shrink:0; padding:7px 14px; border-radius:999px; border:1px solid var(--line); background:var(--bg); font-size:12.5px; font-weight:600; color:var(--ink-soft); cursor:pointer; transition:border-color .15s ease; }
   .pill:hover{ border-color:var(--line-strong); }
-  .pill.active{ background:var(--ink); color:#fff; border-color:var(--ink); }
+  .pill.active{ background:var(--green-strong); color:#fff; border-color:var(--green-strong); }
 
   /* Bottom nav: fija al fondo del viewport, no se mueve con el scroll del contenido */
   .bottom-nav{
@@ -927,7 +933,7 @@
   .chip-row{ display:flex; gap:8px; flex-wrap:wrap; }
   .chip-opt{ padding:8px 14px; border-radius:999px; border:1.5px solid var(--line); background:var(--bg); font-size:12.5px; font-weight:600; cursor:pointer; color:var(--ink-soft); transition:border-color .15s ease, background .15s ease, color .15s ease; }
   .chip-opt:hover{ border-color:var(--line-strong); }
-  .chip-opt.sel{ background:var(--ink); border-color:var(--ink); color:#fff; }
+  .chip-opt.sel{ background:var(--green-strong); border-color:var(--green-strong); color:#fff; }
   .field-error{ color:var(--red-dark); font-size:12px; margin-top:5px; display:none; }
   .field-error.show{ display:block; }
 
@@ -947,7 +953,7 @@
     animation: toastIn .3s cubic-bezier(.22,1,.36,1);
   }
   .toast.ok{ background:#0F6B31; }
-  .toast.err{ background:var(--red-dark); }
+  .toast.err{ background:#B91C1C; }
   .toast-icon{ display:inline-flex; flex-shrink:0; width:17px; height:17px; }
   .toast-icon svg{ width:17px; height:17px; }
   @keyframes toastIn{ from{ opacity:0; transform:translateY(-14px);} to{ opacity:1; transform:none; } }
@@ -975,7 +981,7 @@
 
   /* Premium screen */
   .plan-card{ border:1.5px solid var(--line); border-radius:18px; padding:20px; margin-bottom:14px; position:relative; }
-  .plan-card.featured{ border-color:var(--gold); background:linear-gradient(180deg,var(--gold-light),#fff 40%); }
+  .plan-card.featured{ border-color:var(--gold); background:linear-gradient(180deg,var(--gold-light),var(--surface) 40%); }
   .plan-card .pc-badge{ position:absolute; top:-11px; right:16px; background:var(--gold); color:#fff; font-size:10.5px; font-weight:800; padding:4px 10px; border-radius:999px; }
   .plan-card .pc-name{ font-weight:800; font-size:15px; margin-bottom:4px; }
   .plan-card .pc-price{ font-size:26px; font-weight:800; margin-bottom:2px; }
@@ -1124,7 +1130,7 @@
       </div>
 
       <div class="scroll-hint" onclick="goTo(1)">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="#18181A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </div>
     </section>
 
@@ -1162,7 +1168,7 @@
       </div>
 
       <div class="scroll-hint" onclick="goTo(2)">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="#18181A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </div>
     </section>
 
