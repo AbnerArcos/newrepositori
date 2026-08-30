@@ -19,6 +19,7 @@
     --line-strong: #D6D6D2;
     --bg: #FFFFFF;
     --bg-soft: #F7F7F6;
+    --surface: #FFFFFF;
     --red: #DC2626;
     --red-dark: #B91C1C;
     --red-light: #FDECEA;
@@ -36,6 +37,36 @@
     --shadow-lg: 0 20px 50px rgba(24,24,26,.14), 0 4px 14px rgba(24,24,26,.06);
     --vh: 1vh;
   }
+
+  /* ===== Modo oscuro ===== */
+  html[data-theme="dark"]{
+    --green: #34A853;
+    --green-dark: #2E7D46;
+    --green-light: #113321;
+    --ink: #F2F2F0;
+    --ink-soft: #B5B5B8;
+    --ink-3: #86868A;
+    --line: #2E2E31;
+    --line-strong: #3D3D40;
+    --bg: #121214;
+    --bg-soft: #1A1A1C;
+    --surface: #1E1E21;
+    --red: #F87171;
+    --red-dark: #EF4444;
+    --red-light: #3A1A1A;
+    --amber: #F0B054;
+    --amber-light: #3A2C13;
+    --gold: #E3B24E;
+    --gold-light: #332A14;
+    --shadow-card: 0 1px 3px rgba(0,0,0,.35), 0 1px 2px rgba(0,0,0,.3);
+    --shadow-sm: 0 2px 8px rgba(0,0,0,.4), 0 1px 3px rgba(0,0,0,.3);
+    --shadow-md: 0 8px 24px rgba(0,0,0,.45), 0 2px 6px rgba(0,0,0,.3);
+    --shadow-lg: 0 20px 50px rgba(0,0,0,.55), 0 4px 14px rgba(0,0,0,.3);
+  }
+  html, body{ transition: background-color .25s ease, color .25s ease; }
+  html[data-theme="dark"] .toast{ background:#2A2A2D; }
+  html[data-theme="dark"] .modal-overlay{ background:rgba(0,0,0,.65); }
+  html[data-theme="dark"] .app-topbar, html[data-theme="dark"] .app-sidebar{ background:var(--bg); }
 
   *{ box-sizing:border-box; margin:0; padding:0; }
 
@@ -311,7 +342,7 @@
     cursor:pointer;
     animation: bounce 2s infinite;
     transition: background .25s ease, border-color .25s ease, transform .25s ease;
-    background:#fff;
+    background:var(--surface);
   }
   .scroll-hint:hover{
     background: var(--green-light);
@@ -623,7 +654,7 @@
     flex-direction:column;
     width:264px;
     flex-shrink:0;
-    background:#fff;
+    background:var(--surface);
     border-right:1px solid var(--line);
     position:sticky;
     top:0;
@@ -657,7 +688,8 @@
     width:38px; height:38px;
     border-radius:50%;
     border:1px solid var(--line);
-    background:#fff;
+    background:var(--surface);
+    color:var(--ink);
     display:flex; align-items:center; justify-content:center;
     cursor:pointer;
     transition: background .2s ease, border-color .2s ease, transform .15s ease;
@@ -697,7 +729,7 @@
     display:flex;
     align-items:center;
     gap:14px;
-    background:#fff;
+    background:var(--surface);
     border:1px solid var(--line);
     border-radius:var(--radius);
     padding:18px;
@@ -761,7 +793,7 @@
 
   .list-row{
     display:flex; align-items:center; gap:12px;
-    background:#fff; border:1px solid var(--line); border-radius:14px;
+    background:var(--surface); border:1px solid var(--line); border-radius:14px;
     padding:13px 14px; margin-bottom:9px;
   }
   .list-row .lr-icon{ width:38px; height:38px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:17px; flex-shrink:0; }
@@ -779,7 +811,7 @@
   .empty-state p{ font-size:13.5px; }
 
   .totals-row{ display:flex; gap:10px; margin-bottom:16px; }
-  .total-chip{ flex:1; background:#fff; border:1px solid var(--line); border-radius:14px; padding:12px 14px; text-align:center; }
+  .total-chip{ flex:1; background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:12px 14px; text-align:center; }
   .total-chip .tc-label{ font-size:11.5px; color:var(--ink-soft); margin-bottom:4px; }
   .total-chip .tc-value{ font-size:16.5px; font-weight:800; }
 
@@ -795,7 +827,7 @@
     z-index:80;
     display:flex; align-items:stretch; justify-content:space-around;
     border-top:1px solid var(--line);
-    background:#fff; padding:8px 4px calc(8px + env(safe-area-inset-bottom,0px));
+    background:var(--surface); padding:8px 4px calc(8px + env(safe-area-inset-bottom,0px));
   }
   .nav-item{
     background:none; border:none; cursor:pointer;
@@ -818,7 +850,7 @@
   .drawer{
     position:fixed; top:0; right:0; height:100%;
     width:min(320px, 86vw);
-    background:#fff; z-index:201;
+    background:var(--surface); z-index:201;
     display:flex; flex-direction:column;
     transform:translateX(100%);
     transition:transform .3s cubic-bezier(.22,1,.36,1);
@@ -843,7 +875,8 @@
   }
   .drawer-item:hover{ background:var(--bg-soft); }
   .drawer-item.active{ background:var(--green-light); color:var(--green-dark); }
-  .drawer-item .di-icon{ font-size:17px; width:22px; text-align:center; flex-shrink:0; }
+  .drawer-item .di-icon{ font-size:17px; width:22px; text-align:center; flex-shrink:0; display:inline-flex; align-items:center; justify-content:center; color:inherit; }
+  .drawer-item .di-icon svg{ width:18px; height:18px; stroke:currentColor; }
   .drawer-item.logout{ color:var(--red-dark); }
   .drawer-footer{ padding:14px 22px 22px; border-top:1px solid var(--line); font-size:11px; color:#9A9A9E; text-align:center; }
 
@@ -892,7 +925,7 @@
 
   .auth-tabs{ display:flex; gap:6px; background:var(--bg-soft); padding:4px; border-radius:12px; margin-bottom:18px; }
   .auth-tab{ flex:1; padding:9px; border:none; background:none; border-radius:9px; font-weight:700; font-size:13.5px; color:var(--ink-soft); cursor:pointer; font-family:inherit; }
-  .auth-tab.active{ background:#fff; color:var(--ink); box-shadow:0 1px 3px rgba(24,24,26,.12); }
+  .auth-tab.active{ background:var(--surface); color:var(--ink); box-shadow:0 1px 3px rgba(24,24,26,.12); }
   .auth-panel[hidden]{ display:none; }
   .auth-note{ font-size:12px; color:var(--ink-soft); text-align:center; margin-top:10px; }
   .auth-guest{ text-align:center; margin-top:12px; }
@@ -916,7 +949,7 @@
   .signup-nudge{
     position:fixed; left:50%; bottom:92px; transform:translateX(-50%) translateY(140%);
     z-index:250; width:min(420px,92vw);
-    background:#fff; border:1px solid var(--line); border-radius:16px; padding:16px;
+    background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:16px;
     box-shadow:0 18px 45px -12px rgba(24,24,26,.35);
     display:flex; gap:12px; align-items:flex-start;
     transition: transform .45s cubic-bezier(.22,1,.36,1);
@@ -952,9 +985,15 @@
   .toggle input:checked + .slider{ background:var(--green); }
   .toggle input:checked + .slider::before{ transform:translateX(18px); }
 
-  .settings-row{ display:flex; align-items:center; justify-content:space-between; gap:12px; background:#fff; border:1px solid var(--line); border-radius:14px; padding:14px 16px; margin-bottom:10px; }
+  .settings-row{ display:flex; align-items:center; justify-content:space-between; gap:12px; background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:14px 16px; margin-bottom:10px; }
   .settings-row .sr-title{ font-size:14px; font-weight:700; }
   .settings-row .sr-sub{ font-size:12px; color:var(--ink-soft); margin-top:2px; }
+  .theme-select{
+    padding:9px 12px; border:1.5px solid var(--line); border-radius:10px;
+    font-size:13px; font-weight:600; font-family:var(--font-body);
+    color:var(--ink); background:var(--surface); cursor:pointer;
+  }
+  .theme-select:focus{ outline:none; border-color:var(--ink); }
 
   .faq-item{ border-bottom:1px solid var(--line); padding:14px 0; }
   .faq-q{ display:flex; justify-content:space-between; align-items:center; cursor:pointer; font-weight:700; font-size:14px; }
@@ -965,7 +1004,7 @@
 
   .avatar-lg{ width:64px; height:64px; border-radius:50%; background:var(--green-light); color:var(--green-dark); font-weight:800; font-size:24px; display:flex; align-items:center; justify-content:center; margin-bottom:14px; }
 
-  .mini-chart{ background:#fff; border:1px solid var(--line); border-radius:16px; padding:16px; margin-bottom:16px; }
+  .mini-chart{ background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:16px; margin-bottom:16px; }
   .mini-chart canvas{ width:100%; display:block; }
   .chart-legend{ display:flex; gap:16px; margin-top:10px; font-size:12px; color:var(--ink-soft); }
   .chart-legend span{ display:inline-flex; align-items:center; gap:6px; }
@@ -988,6 +1027,15 @@
     .app-sidebar{ display:flex; }
     #appRoot{ justify-content:stretch; }
     .phone-frame{ min-height:100vh; }
+
+    /* La barra lateral debe quedarse fija de un lado; solo el contenido de la
+       derecha (.app-body) debe desplazarse. Esto anula el "overflow:auto" que
+       .app-mode aplica en html/body (pensado para celular) y lo devuelve al
+       contenedor interno, para que el sidebar nunca se mueva. */
+    html.app-mode, html.app-mode body{ overflow:hidden; height:100%; }
+    #appRoot{ height:100vh; overflow:hidden; }
+    .app-sidebar{ position:sticky; top:0; align-self:flex-start; }
+    .phone-frame{ height:100vh; overflow:hidden; }
     .app-topbar{ padding:22px 40px 12px; justify-content:flex-end; }
     .app-topbar .brand{ display:none; }
     .app-body{ max-width:1120px; width:100%; margin:0 auto; padding:8px 40px 60px; }
@@ -1142,20 +1190,21 @@
       <div class="brand-name">Mi<span>Negocio</span></div>
     </div>
     <nav class="sidebar-menu">
-      <button class="drawer-item" data-screen="home" onclick="App.go('home')"><span class="di-icon">🏠</span>Inicio</button>
-      <button class="drawer-item" data-screen="ventas" onclick="App.go('ventas')"><span class="di-icon">💰</span>Ventas</button>
-      <button class="drawer-item" data-screen="gastos" onclick="App.go('gastos')"><span class="di-icon">💸</span>Gastos</button>
-      <button class="drawer-item js-productos-btn" data-screen="productos" onclick="App.go('productos')" hidden><span class="di-icon">📦</span>Productos</button>
-      <button class="drawer-item" data-screen="reportes" onclick="App.go('reportes')"><span class="di-icon">📊</span>Reportes</button>
+      <button class="drawer-item" data-screen="home" onclick="App.go('home')"><span class="di-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9a1 1 0 0 0 1 1H9.5v-6h5v6H17.5a1 1 0 0 0 1-1v-9"/></svg></span>Inicio</button>
+      <button class="drawer-item" data-screen="ventas" onclick="App.go('ventas')"><span class="di-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></span>Ventas</button>
+      <button class="drawer-item" data-screen="gastos" onclick="App.go('gastos')"><span class="di-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7l6 6 4-4 8 8"/><path d="M15 17h6v-6"/></svg></span>Gastos</button>
+      <button class="drawer-item js-productos-btn" data-screen="productos" onclick="App.go('productos')" hidden><span class="di-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 8 12 3.5 20.5 8 12 12.5 3.5 8Z"/><path d="M3.5 8v8L12 20.5 20.5 16V8"/><path d="M12 12.5V20.5"/></svg></span>Productos</button>
+      <button class="drawer-item" data-screen="reportes" onclick="App.go('reportes')"><span class="di-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 20V14M10 20V8M16 20V11M22 20V4"/></svg></span>Reportes</button>
       <div class="sidebar-divider"></div>
-      <button class="drawer-item" data-screen="cuenta" onclick="App.go('cuenta')"><span class="di-icon">👤</span>Mi cuenta</button>
-      <button class="drawer-item" data-screen="negocio" onclick="App.go('negocio')"><span class="di-icon">🏪</span>Mi negocio</button>
-      <button class="drawer-item" data-screen="config" onclick="App.go('config')"><span class="di-icon">⚙️</span>Configuración</button>
-      <button class="drawer-item" data-screen="premium" onclick="App.go('premium')"><span class="di-icon">⭐</span>Plan Premium</button>
-      <button class="drawer-item" data-screen="ayuda" onclick="App.go('ayuda')"><span class="di-icon">❓</span>Ayuda</button>
+      <button class="drawer-item" data-screen="cuenta" onclick="App.go('cuenta')"><span class="di-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M20 21a8 8 0 10-16 0"/><circle cx="12" cy="8" r="4"/></svg></span>Mi cuenta</button>
+      <button class="drawer-item" data-screen="negocio" onclick="App.go('negocio')"><span class="di-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M4 9V6l1.5-3h13L20 6v3"/><path d="M4 9a2 2 0 0 0 4 0 2 2 0 0 0 4 0 2 2 0 0 0 4 0 2 2 0 0 0 4 0"/><path d="M5 9v10a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V9"/></svg></span>Mi negocio</button>
+      <button class="drawer-item" data-screen="config" onclick="App.go('config')"><span class="di-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg></span>Configuración</button>
+      <button class="drawer-item" data-screen="premium" onclick="App.go('premium')"><span class="di-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.3-4.1 5.9-.9L12 3.5Z"/></svg></span>Plan Premium</button>
+      <button class="drawer-item" data-screen="ayuda" onclick="App.go('ayuda')"><span class="di-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.2a2.5 2.5 0 0 1 4.9.8c0 1.7-2.4 2-2.4 3.5"/><path d="M12 17.2h.01"/></svg></span>Ayuda</button>
     </nav>
     <div class="sidebar-footer">
-      <button class="drawer-item logout" onclick="App.logout()"><span class="di-icon">🚪</span>Cerrar sesión</button>
+      <button class="drawer-item" id="sidebarLoginBtn" onclick="App.openAuth('login')" hidden><span class="di-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1h-4"/><path d="M10 17l5-5-5-5"/><path d="M15 12H3"/></svg></span>Iniciar sesión</button>
+      <button class="drawer-item logout" id="sidebarLogoutBtn" onclick="App.logout()"><span class="di-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg></span>Cerrar sesión</button>
     </div>
   </aside>
 
@@ -1168,10 +1217,16 @@
         </div>
         <div class="brand-name">Mi<span>Negocio</span></div>
       </div>
-      <button class="icon-btn" id="accountBtn" onclick="App.go('cuenta')" aria-label="Mi cuenta">
-        <span class="badge-dot"></span>
-        <svg viewBox="0 0 24 24" fill="none"><path d="M20 21a8 8 0 10-16 0" stroke="#18181A" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="8" r="4" stroke="#18181A" stroke-width="1.8"/></svg>
-      </button>
+      <div style="display:flex; align-items:center; gap:8px;">
+        <button class="icon-btn" id="themeToggleBtn" onclick="App.toggleTheme()" aria-label="Cambiar tema">
+          <svg id="themeIconSun" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="1.8"/><path d="M12 2.5v2.4M12 19.1v2.4M4.6 4.6l1.7 1.7M17.7 17.7l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.6 19.4l1.7-1.7M17.7 6.3l1.7-1.7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          <svg id="themeIconMoon" viewBox="0 0 24 24" fill="none" style="display:none;"><path d="M20 14.5A8.5 8.5 0 119.5 4a7 7 0 0010.5 10.5z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="icon-btn" id="accountBtn" onclick="App.go('cuenta')" aria-label="Mi cuenta">
+          <span class="badge-dot"></span>
+          <svg viewBox="0 0 24 24" fill="none"><path d="M20 21a8 8 0 10-16 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.8"/></svg>
+        </button>
+      </div>
     </div>
 
     <div class="app-body" id="appBody">
@@ -1351,6 +1406,14 @@
       <section class="screen" id="screen-config" hidden>
         <h1 class="screen-heading">Configuración</h1>
         <div class="settings-row">
+          <div><div class="sr-title">Apariencia</div><div class="sr-sub">Modo claro, oscuro o según tu dispositivo</div></div>
+          <select id="cfgTema" class="theme-select" onchange="App.setThemeMode(this.value)">
+            <option value="light">Claro</option>
+            <option value="dark">Oscuro</option>
+            <option value="system">Automático</option>
+          </select>
+        </div>
+        <div class="settings-row">
           <div><div class="sr-title">Usar inventario</div><div class="sr-sub">Activa el módulo de productos y stock</div></div>
           <label class="toggle"><input type="checkbox" id="cfgInventario" onchange="App.toggleInventario(this.checked)"><span class="slider"></span></label>
         </div>
@@ -1453,14 +1516,15 @@
     <div class="dh-plan free" id="drawerPlan">Plan Gratis</div>
   </div>
   <div class="drawer-menu">
-    <button class="drawer-item" data-screen="cuenta" onclick="App.go('cuenta'); App.closeDrawer();"><span class="di-icon">👤</span>Mi cuenta</button>
-    <button class="drawer-item" data-screen="negocio" onclick="App.go('negocio'); App.closeDrawer();"><span class="di-icon">🏪</span>Mi negocio</button>
-    <button class="drawer-item" data-screen="config" onclick="App.go('config'); App.closeDrawer();"><span class="di-icon">⚙️</span>Configuración</button>
-    <button class="drawer-item js-productos-btn" data-screen="productos" id="drawerProductosBtn" onclick="App.go('productos'); App.closeDrawer();" hidden><span class="di-icon">📦</span>Productos</button>
-    <button class="drawer-item" data-screen="reportes" onclick="App.go('reportes'); App.closeDrawer();"><span class="di-icon">📊</span>Reportes</button>
-    <button class="drawer-item" data-screen="premium" onclick="App.go('premium'); App.closeDrawer();"><span class="di-icon">⭐</span>Plan Premium</button>
-    <button class="drawer-item" data-screen="ayuda" onclick="App.go('ayuda'); App.closeDrawer();"><span class="di-icon">❓</span>Ayuda</button>
-    <button class="drawer-item logout" onclick="App.logout()"><span class="di-icon">🚪</span>Cerrar sesión</button>
+    <button class="drawer-item" data-screen="cuenta" onclick="App.go('cuenta'); App.closeDrawer();"><span class="di-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M20 21a8 8 0 10-16 0"/><circle cx="12" cy="8" r="4"/></svg></span>Mi cuenta</button>
+    <button class="drawer-item" data-screen="negocio" onclick="App.go('negocio'); App.closeDrawer();"><span class="di-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M4 9V6l1.5-3h13L20 6v3"/><path d="M4 9a2 2 0 0 0 4 0 2 2 0 0 0 4 0 2 2 0 0 0 4 0 2 2 0 0 0 4 0"/><path d="M5 9v10a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V9"/></svg></span>Mi negocio</button>
+    <button class="drawer-item" data-screen="config" onclick="App.go('config'); App.closeDrawer();"><span class="di-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg></span>Configuración</button>
+    <button class="drawer-item js-productos-btn" data-screen="productos" id="drawerProductosBtn" onclick="App.go('productos'); App.closeDrawer();" hidden><span class="di-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 8 12 3.5 20.5 8 12 12.5 3.5 8Z"/><path d="M3.5 8v8L12 20.5 20.5 16V8"/><path d="M12 12.5V20.5"/></svg></span>Productos</button>
+    <button class="drawer-item" data-screen="reportes" onclick="App.go('reportes'); App.closeDrawer();"><span class="di-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 20V14M10 20V8M16 20V11M22 20V4"/></svg></span>Reportes</button>
+    <button class="drawer-item" data-screen="premium" onclick="App.go('premium'); App.closeDrawer();"><span class="di-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.3-4.1 5.9-.9L12 3.5Z"/></svg></span>Plan Premium</button>
+    <button class="drawer-item" data-screen="ayuda" onclick="App.go('ayuda'); App.closeDrawer();"><span class="di-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.2a2.5 2.5 0 0 1 4.9.8c0 1.7-2.4 2-2.4 3.5"/><path d="M12 17.2h.01"/></svg></span>Ayuda</button>
+    <button class="drawer-item" id="drawerLoginBtn" onclick="App.openAuth('login')" hidden><span class="di-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1h-4"/><path d="M10 17l5-5-5-5"/><path d="M15 12H3"/></svg></span>Iniciar sesión</button>
+      <button class="drawer-item logout" id="drawerLogoutBtn" onclick="App.logout()"><span class="di-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg></span>Cerrar sesión</button>
   </div>
   <div class="drawer-footer">MiNegocio v1.0 · Hecho para pequeños negocios</div>
 </aside>
@@ -1888,13 +1952,13 @@ function uid(){ return Date.now().toString(36) + Math.random().toString(36).slic
 
 function defaultState(){
   return {
-    session: { loggedIn:false, user:null, isGuest:true },
+    session: { loggedIn:false, user:null, isGuest:true, token:null },
     business: { name:'Mi Negocio', tipo:'Panadería / repostería', moneda:'$', usaInventario:true },
     sales: [],
     expenses: [],
     products: [],
     premium: { active:false, plan:null, renewsAt:null },
-    prefs: { notif:true, recordatorio:false },
+    prefs: { notif:true, recordatorio:false, theme:'system' },
     users: [],           // usuarios "registrados" en modo demo (sustituir por tabla users real)
     nudgeShown: false,
     nudgeCount: 0,
@@ -1902,6 +1966,14 @@ function defaultState(){
 }
 
 let STATE = loadState();
+
+/* Aplica el tema lo antes posible para evitar parpadeos al cargar */
+function applyThemeEarly(){
+  const mode = (STATE.prefs && STATE.prefs.theme) || 'system';
+  const dark = mode === 'dark' || (mode === 'system' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+}
+applyThemeEarly();
 
 function loadState(){
   try{
@@ -1919,9 +1991,31 @@ function saveState(){
 /* Wrapper de "backend": cada método revisa APP_CONFIG.USE_BACKEND. Hoy siempre usa
    localStorage; cuando actives tu servidor, sustituye el cuerpo `if(true)` por tus
    propios fetch() (los endpoints ya están documentados arriba). */
+/* Pequeño helper para llamar a tu API real cuando APP_CONFIG.USE_BACKEND es true.
+   Manda el token guardado en el login y lanza un error legible si algo falla. */
+async function apiFetch(path, options = {}){
+  const res = await fetch(`${APP_CONFIG.BACKEND_URL}${path}`, {
+    method: options.method || 'GET',
+    headers: Object.assign(
+      { 'Content-Type': 'application/json' },
+      STATE.session.token ? { 'Authorization': `Bearer ${STATE.session.token}` } : {},
+      options.headers || {}
+    ),
+    body: options.body ? JSON.stringify(options.body) : undefined,
+  });
+  let data = null;
+  try{ data = await res.json(); }catch(e){ /* respuesta sin cuerpo */ }
+  if(!res.ok){ throw new Error((data && data.message) || 'No se pudo conectar con el servidor.'); }
+  return data;
+}
+
 const DB = {
-  async listSales(){ return STATE.sales.slice().sort((a,b)=> b.date - a.date); },
+  async listSales(){
+    if(APP_CONFIG.USE_BACKEND) return apiFetch('/sales');
+    return STATE.sales.slice().sort((a,b)=> b.date - a.date);
+  },
   async addSale(sale){
+    if(APP_CONFIG.USE_BACKEND) return apiFetch('/sales', { method:'POST', body: sale });
     const item = Object.assign({ id: uid(), date: Date.now() }, sale);
     STATE.sales.push(item);
     if(item.productId){
@@ -1930,43 +2024,67 @@ const DB = {
     }
     saveState();
     return item;
-    // BACKEND REAL: return (await fetch(`${APP_CONFIG.BACKEND_URL}/sales`, {method:'POST', body: JSON.stringify(sale)})).json();
   },
-  async deleteSale(id){ STATE.sales = STATE.sales.filter(s=>s.id!==id); saveState(); },
+  async deleteSale(id){
+    if(APP_CONFIG.USE_BACKEND) return apiFetch(`/sales/${id}`, { method:'DELETE' });
+    STATE.sales = STATE.sales.filter(s=>s.id!==id); saveState();
+  },
 
-  async listExpenses(){ return STATE.expenses.slice().sort((a,b)=> b.date - a.date); },
+  async listExpenses(){
+    if(APP_CONFIG.USE_BACKEND) return apiFetch('/expenses');
+    return STATE.expenses.slice().sort((a,b)=> b.date - a.date);
+  },
   async addExpense(exp){
+    if(APP_CONFIG.USE_BACKEND) return apiFetch('/expenses', { method:'POST', body: exp });
     const item = Object.assign({ id: uid(), date: Date.now() }, exp);
     STATE.expenses.push(item);
     saveState();
     return item;
   },
-  async deleteExpense(id){ STATE.expenses = STATE.expenses.filter(e=>e.id!==id); saveState(); },
+  async deleteExpense(id){
+    if(APP_CONFIG.USE_BACKEND) return apiFetch(`/expenses/${id}`, { method:'DELETE' });
+    STATE.expenses = STATE.expenses.filter(e=>e.id!==id); saveState();
+  },
 
-  async listProducts(){ return STATE.products.slice(); },
-  async addProduct(p){ const item=Object.assign({id:uid()}, p); STATE.products.push(item); saveState(); return item; },
-  async updateProduct(id, patch){ const p=STATE.products.find(p=>p.id===id); if(p) Object.assign(p, patch); saveState(); return p; },
-  async deleteProduct(id){ STATE.products = STATE.products.filter(p=>p.id!==id); saveState(); },
+  async listProducts(){
+    if(APP_CONFIG.USE_BACKEND) return apiFetch('/products');
+    return STATE.products.slice();
+  },
+  async addProduct(p){
+    if(APP_CONFIG.USE_BACKEND) return apiFetch('/products', { method:'POST', body: p });
+    const item=Object.assign({id:uid()}, p); STATE.products.push(item); saveState(); return item;
+  },
+  async updateProduct(id, patch){
+    if(APP_CONFIG.USE_BACKEND) return apiFetch(`/products/${id}`, { method:'PUT', body: patch });
+    const p=STATE.products.find(p=>p.id===id); if(p) Object.assign(p, patch); saveState(); return p;
+  },
+  async deleteProduct(id){
+    if(APP_CONFIG.USE_BACKEND) return apiFetch(`/products/${id}`, { method:'DELETE' });
+    STATE.products = STATE.products.filter(p=>p.id!==id); saveState();
+  },
 
-  async getBusiness(){ return STATE.business; },
-  async saveBusiness(b){ Object.assign(STATE.business, b); saveState(); },
+  async getBusiness(){
+    if(APP_CONFIG.USE_BACKEND) return apiFetch('/business');
+    return STATE.business;
+  },
+  async saveBusiness(b){
+    if(APP_CONFIG.USE_BACKEND) return apiFetch('/business', { method:'PUT', body: b });
+    Object.assign(STATE.business, b); saveState();
+  },
 
   billing: {
-    async getStatus(){ return STATE.premium; },
+    async getStatus(){
+      if(APP_CONFIG.USE_BACKEND) return apiFetch('/billing/status');
+      return STATE.premium;
+    },
     async createCheckoutSession(plan){
       if(APP_CONFIG.USE_BACKEND){
-        // PRODUCCIÓN — descomenta y usa esto cuando tengas tu servidor:
-        // const res = await fetch(`${APP_CONFIG.BACKEND_URL}/billing/create-checkout-session`, {
-        //   method:'POST',
-        //   headers:{'Content-Type':'application/json', 'Authorization':`Bearer ${STATE.session.token}`},
-        //   body: JSON.stringify({ plan })
-        // });
-        // const data = await res.json();
-        // window.location = data.url; // Stripe Checkout
-        // return;
-        throw new Error('Configura tu servidor en APP_CONFIG.BACKEND_URL primero.');
+        // Tu servidor crea la sesión con el SDK de Stripe y regresa { url }.
+        const data = await apiFetch('/billing/create-checkout-session', { method:'POST', body:{ plan } });
+        window.location = data.url; // Redirige a Stripe Checkout
+        return;
       }
-      // MODO DEMO: simula el pago exitoso localmente.
+      // MODO DEMO: simula el pago exitoso localmente (sin servidor ni Stripe real).
       return new Promise(resolve=>{
         setTimeout(()=>{
           STATE.premium = { active:true, plan, renewsAt: Date.now() + (plan==='yearly'?365:30)*86400000 };
@@ -1979,6 +2097,13 @@ const DB = {
 
   auth: {
     async register(name, email, password){
+      if(APP_CONFIG.USE_BACKEND){
+        const data = await apiFetch('/auth/register', { method:'POST', body:{ name, email, password } });
+        STATE.session = { loggedIn:true, user:data.user, isGuest:false, token:data.token };
+        saveState();
+        return STATE.session.user;
+      }
+      // MODO DEMO: guarda el "usuario" en localStorage (no usar así en producción).
       if(STATE.users.find(u=>u.email.toLowerCase()===email.toLowerCase())) throw new Error('Ese correo ya está registrado.');
       const user = { id: uid(), name, email, password }; // DEMO: en tu servidor real, NUNCA guardes la contraseña así (usa bcrypt).
       STATE.users.push(user);
@@ -1987,13 +2112,25 @@ const DB = {
       return STATE.session.user;
     },
     async login(email, password){
+      if(APP_CONFIG.USE_BACKEND){
+        const data = await apiFetch('/auth/login', { method:'POST', body:{ email, password } });
+        STATE.session = { loggedIn:true, user:data.user, isGuest:false, token:data.token };
+        saveState();
+        return STATE.session.user;
+      }
       const user = STATE.users.find(u=>u.email.toLowerCase()===email.toLowerCase() && u.password===password);
       if(!user) throw new Error('Correo o contraseña incorrectos.');
       STATE.session = { loggedIn:true, user:{id:user.id, name:user.name, email:user.email}, isGuest:false };
       saveState();
       return STATE.session.user;
     },
-    async logout(){ STATE.session = { loggedIn:false, user:null, isGuest:true }; saveState(); }
+    async logout(){
+      if(APP_CONFIG.USE_BACKEND){
+        try{ await apiFetch('/auth/logout', { method:'POST' }); }catch(e){ /* seguimos cerrando sesión localmente aunque falle */ }
+      }
+      STATE.session = { loggedIn:false, user:null, isGuest:true };
+      saveState();
+    }
   }
 };
 
@@ -2439,6 +2576,24 @@ const App = {
     document.getElementById('cfgInventario').checked = !!STATE.business.usaInventario;
     document.getElementById('cfgNotif').checked = !!STATE.prefs.notif;
     document.getElementById('cfgRecordatorio').checked = !!STATE.prefs.recordatorio;
+    document.getElementById('cfgTema').value = STATE.prefs.theme || 'system';
+  },
+  /* ---------- TEMA (claro / oscuro / automático) ---------- */
+  setThemeMode(mode){
+    STATE.prefs.theme = mode;
+    saveState();
+    applyThemeEarly();
+    this.syncThemeIcon();
+  },
+  toggleTheme(){
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    this.setThemeMode(isDark ? 'light' : 'dark');
+  },
+  syncThemeIcon(){
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    const sun = document.getElementById('themeIconSun');
+    const moon = document.getElementById('themeIconMoon');
+    if(sun && moon){ sun.style.display = isDark ? 'none' : ''; moon.style.display = isDark ? '' : 'none'; }
   },
   async toggleInventario(val){
     await DB.saveBusiness({ usaInventario: val });
@@ -2578,6 +2733,14 @@ const App = {
     planEl.textContent = STATE.premium.active ? '⭐ Plan Premium' : 'Plan Gratis';
     planEl.className = 'dh-plan ' + (STATE.premium.active ? 'premium' : 'free');
     document.getElementById('accountBtn').classList.toggle('has-premium', STATE.premium.active);
+    // Solo mostramos "Cerrar sesión" si en verdad hay una sesión iniciada;
+    // si es invitado, mostramos "Iniciar sesión" en su lugar.
+    ['sidebar','drawer'].forEach(prefix=>{
+      const loginBtn = document.getElementById(prefix+'LoginBtn');
+      const logoutBtn = document.getElementById(prefix+'LogoutBtn');
+      if(loginBtn) loginBtn.hidden = s.loggedIn;
+      if(logoutBtn) logoutBtn.hidden = !s.loggedIn;
+    });
   },
 
   /* ---------- AVISO SUTIL DE REGISTRO ---------- */
@@ -2625,6 +2788,32 @@ document.addEventListener('click', function(e){
 });
 
 window.App = App;
+
+/* ---------------------------------------------------------------------------------
+   6) INICIO: sincroniza tema, evita repetir la presentación y refleja la sesión
+--------------------------------------------------------------------------------- */
+document.addEventListener('DOMContentLoaded', function(){
+  App.syncThemeIcon();
+
+  // Si el modo es "automático", sigue los cambios de preferencia del sistema en vivo.
+  if(window.matchMedia){
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', ()=>{
+      if((STATE.prefs.theme || 'system') === 'system'){ applyThemeEarly(); App.syncThemeIcon(); }
+    });
+  }
+
+  // Si ya viste la presentación antes, entra directo a la app (sin repetirla).
+  if(localStorage.getItem('mn_seen_intro') === '1'){
+    App.enter();
+  }
+});
+
+/* Marca la presentación como vista la primera vez que se entra a la app */
+const _origEnter = App.enter.bind(App);
+App.enter = function(){
+  localStorage.setItem('mn_seen_intro', '1');
+  _origEnter();
+};
 </script>
 
 </body>
