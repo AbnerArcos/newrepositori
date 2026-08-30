@@ -320,11 +320,13 @@
     text-align:center;
     padding:12px;
   }
-  .mockup-placeholder .ph-icon{ font-size:26px; line-height:1; }
+  .mockup-placeholder .ph-icon{ font-size:26px; line-height:1; display:flex; align-items:center; justify-content:center; color:var(--ink-3); }
+  .mockup-placeholder .ph-icon svg{ width:34px; height:34px; }
   .mockup-placeholder .ph-text{ font-size:11px; font-weight:600; }
   .mockup-placeholder .ph-sub{ font-size:9.5px; color:#ADADA8; }
   .mockup-phone-slot .mockup-placeholder{ border-radius:20px; padding:8px; }
   .mockup-phone-slot .mockup-placeholder .ph-icon{ font-size:18px; }
+  .mockup-phone-slot .mockup-placeholder .ph-icon svg{ width:24px; height:24px; }
   .mockup-phone-slot .mockup-placeholder .ph-text{ font-size:8.5px; }
   .mockup-phone-slot .mockup-placeholder .ph-sub{ display:none; }
 
@@ -743,9 +745,9 @@
     display:flex; align-items:center; justify-content:center;
     flex-shrink:0; font-size:22px;
   }
-  .stat-icon.up{ background:var(--green-light); }
-  .stat-icon.down{ background:var(--red-light); }
-  .stat-icon.profit{ background:var(--green-light); }
+  .stat-icon.up{ background:var(--green-light); color:var(--green-dark); }
+  .stat-icon.down{ background:var(--red-light); color:var(--red-dark); }
+  .stat-icon.profit{ background:var(--green-light); color:var(--green-dark); }
   .stat-icon svg{ width:22px; height:22px; }
   .stat-info{ flex:1; min-width:0; }
   .stat-label{ font-size:13.5px; color:var(--ink-soft); margin-bottom:2px; }
@@ -780,7 +782,8 @@
     background:var(--green-light); border-radius:14px; padding:16px;
     margin-top:6px; margin-bottom:20px;
   }
-  .tip-card .tip-icon{ font-size:18px; flex-shrink:0; }
+  .tip-card .tip-icon{ font-size:18px; flex-shrink:0; display:flex; align-items:center; justify-content:center; color:var(--green-dark); }
+  .tip-card .tip-icon svg{ width:19px; height:19px; }
   .tip-card b{ color:var(--green-dark); }
   .tip-card p{ font-size:13px; color:#14532D; line-height:1.5; margin-top:2px; }
 
@@ -797,6 +800,9 @@
     padding:13px 14px; margin-bottom:9px;
   }
   .list-row .lr-icon{ width:38px; height:38px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:17px; flex-shrink:0; }
+  .list-row .lr-icon svg{ width:19px; height:19px; }
+  .list-row .lr-icon.up, .list-row .lr-icon[style*='green-light']{ color:var(--green-dark); }
+  .list-row .lr-icon[style*='red-light']{ color:var(--red-dark); }
   .list-row .lr-body{ flex:1; min-width:0; }
   .list-row .lr-title{ font-size:14px; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
   .list-row .lr-sub{ font-size:12px; color:var(--ink-soft); }
@@ -807,7 +813,8 @@
   .list-row .lr-del:hover{ background:var(--red-light); color:var(--red-dark); }
 
   .empty-state{ text-align:center; padding:34px 10px; color:var(--ink-soft); }
-  .empty-state .es-icon{ font-size:34px; margin-bottom:10px; }
+  .empty-state .es-icon{ font-size:34px; margin-bottom:10px; display:flex; align-items:center; justify-content:center; color:var(--ink-3); }
+  .empty-state .es-icon svg{ width:40px; height:40px; }
   .empty-state p{ font-size:13.5px; }
 
   .totals-row{ display:flex; gap:10px; margin-bottom:16px; }
@@ -861,6 +868,7 @@
 
   .drawer-header{ padding:26px 22px 18px; border-bottom:1px solid var(--line); }
   .drawer-avatar{ width:52px; height:52px; border-radius:50%; background:var(--green-light); color:var(--green-dark); font-weight:800; font-size:19px; display:flex; align-items:center; justify-content:center; margin-bottom:12px; }
+  .drawer-avatar svg{ width:24px; height:24px; }
   .drawer-header .dh-name{ font-weight:800; font-size:15.5px; }
   .drawer-header .dh-email{ font-size:12.5px; color:var(--ink-soft); }
   .drawer-header .dh-plan{ display:inline-flex; align-items:center; gap:5px; margin-top:8px; font-size:11px; font-weight:800; padding:4px 10px; border-radius:999px; }
@@ -940,6 +948,8 @@
   }
   .toast.ok{ background:#0F6B31; }
   .toast.err{ background:var(--red-dark); }
+  .toast-icon{ display:inline-flex; flex-shrink:0; width:17px; height:17px; }
+  .toast-icon svg{ width:17px; height:17px; }
   @keyframes toastIn{ from{ opacity:0; transform:translateY(-14px);} to{ opacity:1; transform:none; } }
   .toast.out{ animation: toastOut .25s ease forwards; }
   @keyframes toastOut{ to{ opacity:0; transform:translateY(-10px); } }
@@ -955,7 +965,8 @@
     transition: transform .45s cubic-bezier(.22,1,.36,1);
   }
   .signup-nudge.show{ transform:translateX(-50%) translateY(0); }
-  .signup-nudge .sn-icon{ font-size:22px; flex-shrink:0; }
+  .signup-nudge .sn-icon{ font-size:22px; flex-shrink:0; display:flex; align-items:center; justify-content:center; color:var(--green-dark); }
+  .signup-nudge .sn-icon svg{ width:22px; height:22px; }
   .signup-nudge .sn-body{ flex:1; }
   .signup-nudge .sn-title{ font-weight:800; font-size:13.5px; margin-bottom:3px; }
   .signup-nudge .sn-text{ font-size:12.5px; color:var(--ink-soft); line-height:1.4; margin-bottom:10px; }
@@ -972,6 +983,12 @@
   .plan-card .pc-list{ list-style:none; margin:14px 0; display:flex; flex-direction:column; gap:8px; }
   .plan-card .pc-list li{ font-size:13px; display:flex; gap:8px; align-items:flex-start; color:var(--ink); }
   .plan-card .pc-list li b{ color:var(--green-dark); }
+  .pc-ic{ display:inline-flex; width:16px; height:16px; flex-shrink:0; margin-top:1px; }
+  .pc-ic svg{ width:16px; height:16px; }
+  .pc-ic.yes{ color:var(--green-dark); }
+  .pc-ic.no{ color:var(--ink-3); }
+  .ct-ic{ display:inline-flex; width:15px; height:15px; color:var(--green-dark); vertical-align:middle; }
+  .ct-ic svg{ width:15px; height:15px; }
 
   .compare-table{ width:100%; border-collapse:collapse; font-size:12.5px; margin:18px 0; }
   .compare-table th, .compare-table td{ padding:9px 6px; text-align:center; border-bottom:1px solid var(--line); }
@@ -1089,7 +1106,7 @@
               <img src="assets/laptop-mockup.png" alt="Vista de escritorio de MiNegocio"
                    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
               <div class="mockup-placeholder">
-                <div class="ph-icon">🖥️</div>
+                <div class="ph-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4" width="19" height="13" rx="1.5"/><path d="M8 20.5h8M12 17v3.5"/></svg></div>
                 <div class="ph-text">Imagen de escritorio</div>
                 <div class="ph-sub">assets/laptop-mockup.png</div>
               </div>
@@ -1098,7 +1115,7 @@
               <img src="assets/phone-mockup.png" alt="Vista móvil de MiNegocio"
                    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
               <div class="mockup-placeholder">
-                <div class="ph-icon">📱</div>
+                <div class="ph-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="6.5" y="2.5" width="11" height="19" rx="2.2"/><path d="M11 19h2"/></svg></div>
                 <div class="ph-text">Móvil</div>
               </div>
             </div>
@@ -1233,13 +1250,13 @@
 
       <!-- INICIO -->
       <section class="screen" id="screen-home">
-        <div class="screen-title wave"><span>¡Buenos <span id="greetTime">días</span>! 👋</span></div>
+        <div class="screen-title wave"><span>¡Buenos <span id="greetTime">días</span>!</span></div>
         <h1 class="screen-heading" id="homeBizName">Mi Negocio</h1>
         <p class="screen-sub" id="homeToday">Hoy es …</p>
 
         <div class="stat-row">
         <div class="stat-card">
-          <div class="stat-icon up">📈</div>
+          <div class="stat-icon up"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></div>
           <div class="stat-info">
             <div class="stat-label">Vendiste hoy</div>
             <div class="stat-value positive" id="statVentasHoy">$0</div>
@@ -1251,7 +1268,7 @@
         </div>
 
         <div class="stat-card">
-          <div class="stat-icon down">📉</div>
+          <div class="stat-icon down"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7l6 6 4-4 8 8"/><path d="M15 17h6v-6"/></svg></div>
           <div class="stat-info">
             <div class="stat-label">Gastaste hoy</div>
             <div class="stat-value negative" id="statGastosHoy">$0</div>
@@ -1263,7 +1280,7 @@
         </div>
 
         <div class="stat-card">
-          <div class="stat-icon profit">💰</div>
+          <div class="stat-icon profit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v9M9.2 15c0 1.1 1.25 2 2.8 2s2.8-.7 2.8-1.8c0-2.4-5.6-1-5.6-3.4 0-1.1 1.25-1.8 2.8-1.8s2.8.7 2.8 1.6"/></svg></div>
           <div class="stat-info">
             <div class="stat-label">Llevas ganado hoy</div>
             <div class="stat-value" id="statGananciaHoy">$0</div>
@@ -1276,7 +1293,7 @@
         </div>
 
         <div class="tip-card">
-          <div class="tip-icon">💡</div>
+          <div class="tip-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.5.4.8 1 .8 1.6v.5h5.4v-.5c0-.6.3-1.2.8-1.6A6 6 0 0 0 12 3Z"/></svg></div>
           <p><b>Tip del día</b><br>Lleva tu registro al día y conoce mejor tu negocio.</p>
         </div>
 
@@ -1439,10 +1456,10 @@
           <div class="pc-name">Plan Gratis</div>
           <div class="pc-price">$0 <span>/ mes</span></div>
           <ul class="pc-list">
-            <li>✅ Registro de ventas y gastos</li>
-            <li>✅ Hasta 10 productos</li>
-            <li>✅ Reporte de los últimos 7 días</li>
-            <li>❌ Reportes por mes / exportar</li>
+            <li><span class="pc-ic yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Registro de ventas y gastos</li>
+            <li><span class="pc-ic yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Hasta 10 productos</li>
+            <li><span class="pc-ic yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Reporte de los últimos 7 días</li>
+            <li><span class="pc-ic no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg></span>Reportes por mes / exportar</li>
           </ul>
         </div>
 
@@ -1451,10 +1468,10 @@
           <div class="pc-name">Plan Premium</div>
           <div class="pc-price" id="premiumPrice">$99 <span>MXN / mes</span></div>
           <ul class="pc-list">
-            <li><b>✅</b> Productos e inventario ilimitados</li>
-            <li><b>✅</b> Reportes avanzados y por mes</li>
-            <li><b>✅</b> Exportar información</li>
-            <li><b>✅</b> Soporte prioritario</li>
+            <li><span class="pc-ic yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span><b>Productos e inventario ilimitados</b></li>
+            <li><span class="pc-ic yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span><b>Reportes avanzados y por mes</b></li>
+            <li><span class="pc-ic yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span><b>Exportar información</b></li>
+            <li><span class="pc-ic yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span><b>Soporte prioritario</b></li>
           </ul>
           <button class="btn btn-gold btn-block" id="premiumCta" onclick="App.openCheckout('monthly')">Suscribirme ahora</button>
         </div>
@@ -1466,10 +1483,10 @@
 
         <table class="compare-table">
           <tr><th>Función</th><th>Gratis</th><th>Premium</th></tr>
-          <tr><td>Ventas y gastos</td><td>✅</td><td>✅</td></tr>
+          <tr><td>Ventas y gastos</td><td><span class="ct-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span></td><td><span class="ct-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span></td></tr>
           <tr><td>Productos</td><td>10</td><td>Ilimitados</td></tr>
           <tr><td>Reportes</td><td>7 días</td><td>Histórico completo</td></tr>
-          <tr><td>Exportar datos</td><td>—</td><td>✅</td></tr>
+          <tr><td>Exportar datos</td><td>—</td><td><span class="ct-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span></td></tr>
           <tr><td>Soporte</td><td>Estándar</td><td>Prioritario</td></tr>
         </table>
       </section>
@@ -1653,8 +1670,9 @@
     <div class="modal-handle"></div>
     <div class="modal-head"><h3>Confirmar suscripción</h3><button class="modal-close" onclick="App.closeModal('modalCheckout')">✕</button></div>
     <p style="font-size:13.5px; color:var(--ink-soft); margin-bottom:16px;" id="checkoutSummary">Plan Premium — $99 MXN / mes</p>
-    <div style="background:var(--bg-soft); border-radius:14px; padding:14px; font-size:12.5px; color:var(--ink-soft); margin-bottom:18px;">
-      🔒 El pago se procesa de forma segura con <b>Stripe</b>. Serás redirigido a la pantalla de pago oficial de Stripe.
+    <div style="background:var(--bg-soft); border-radius:14px; padding:14px; font-size:12.5px; color:var(--ink-soft); margin-bottom:18px; display:flex; gap:8px; align-items:flex-start;">
+      <svg style="width:15px;height:15px;flex-shrink:0;margin-top:1px;" viewBox="0 0 24 24" fill="none"><rect x="5" y="11" width="14" height="9" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M8 11V7a4 4 0 018 0v4" stroke="currentColor" stroke-width="1.8"/></svg>
+      <span>El pago se procesa de forma segura con <b>Stripe</b>. Serás redirigido a la pantalla de pago oficial de Stripe.</span>
     </div>
     <button class="btn btn-gold btn-block" onclick="App.confirmCheckout()">Continuar a pago seguro</button>
     <button class="btn btn-ghost btn-block" onclick="App.closeModal('modalCheckout')">Cancelar</button>
@@ -1664,7 +1682,7 @@
 <!-- Aviso sutil para crear cuenta -->
 <div class="signup-nudge" id="signupNudge" hidden>
   <button class="sn-close" onclick="App.dismissNudge()">✕</button>
-  <div class="sn-icon">💾</div>
+  <div class="sn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z"/><path d="M8 3v5h8V3M8 21v-7h8v7"/></svg></div>
   <div class="sn-body">
     <div class="sn-title">Guarda tu progreso</div>
     <div class="sn-text">Crea una cuenta gratis para no perder tu información si cambias de dispositivo.</div>
@@ -2149,11 +2167,27 @@ function isThisMonth(ts){ const d=new Date(ts), n=new Date(); return d.getFullYe
 function sum(arr){ return arr.reduce((a,b)=>a+Number(b.amount||0),0); }
 function escapeHtml(s){ return String(s==null?'':s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 
+/* Librería de íconos SVG reutilizados en el contenido generado por JS,
+   para no usar emoji (se ven inconsistentes entre dispositivos). */
+const ICONS = {
+  trendUp:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg>',
+  trendDown:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7l6 6 4-4 8 8"/><path d="M15 17h6v-6"/></svg>',
+  box:      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 8 12 3.5 20.5 8 12 12.5 3.5 8Z"/><path d="M3.5 8v8L12 20.5 20.5 16V8"/><path d="M12 12.5V20.5"/></svg>',
+  receipt:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2V3Z"/><path d="M9 8h6M9 12h6M9 16h3"/></svg>',
+  warning:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5 2.5 20h19L12 3.5Z"/><path d="M12 10v4M12 17h.01"/></svg>',
+  check:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.5 12.2l2.4 2.4 4.8-5.2"/></svg>',
+  alert:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>',
+  info:     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>',
+  user:     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M20 21a8 8 0 10-16 0"/><circle cx="12" cy="8" r="4"/></svg>',
+  star:     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.3-4.1 5.9-.9L12 3.5Z"/></svg>',
+};
+
 function toast(msg, type){
   const c = document.getElementById('toastContainer');
   const el = document.createElement('div');
   el.className = 'toast' + (type ? ' '+type : '');
-  el.textContent = msg;
+  const icon = type==='ok' ? ICONS.check : (type==='err' ? ICONS.alert : ICONS.info);
+  el.innerHTML = `<span class="toast-icon">${icon}</span><span>${escapeHtml(msg)}</span>`;
   c.appendChild(el);
   setTimeout(()=>{ el.classList.add('out'); setTimeout(()=>el.remove(), 260); }, 2600);
 }
@@ -2261,7 +2295,7 @@ const App = {
       .sort((a,b)=>b.date-a.date).slice(0,5);
     const box = document.getElementById('homeRecent');
     if(!recent.length){
-      box.innerHTML = `<div class="empty-state"><div class="es-icon">🧾</div><p>Aún no tienes movimientos.<br>Registra tu primera venta o gasto.</p></div>`;
+      box.innerHTML = `<div class="empty-state"><div class="es-icon">${ICONS.receipt}</div><p>Aún no tienes movimientos.<br>Registra tu primera venta o gasto.</p></div>`;
     } else {
       box.innerHTML = recent.map(r=> this.rowHtml(r)).join('');
     }
@@ -2274,7 +2308,7 @@ const App = {
   rowHtml(r){
     const isVenta = r.kind==='venta';
     return `<div class="list-row">
-      <div class="lr-icon" style="background:${isVenta?'var(--green-light)':'var(--red-light)'}">${isVenta?'📈':'📉'}</div>
+      <div class="lr-icon" style="background:${isVenta?'var(--green-light)':'var(--red-light)'};color:${isVenta?'var(--green-dark)':'var(--red-dark)'}">${isVenta?ICONS.trendUp:ICONS.trendDown}</div>
       <div class="lr-body">
         <div class="lr-title">${escapeHtml(r.description || (isVenta?'Venta':'Gasto'))}</div>
         <div class="lr-sub">${new Date(r.date).toLocaleString('es-MX',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}${r.metodo?' · '+escapeHtml(r.metodo):''}${r.categoria?' · '+escapeHtml(r.categoria):''}</div>
@@ -2368,7 +2402,7 @@ const App = {
     this.refreshAll();
     if(this.currentScreen==='ventas') this.renderVentas();
     if(this.currentScreen==='productos') this.renderProductos();
-    toast('✅ Venta registrada correctamente', 'ok');
+    toast('Venta registrada correctamente', 'ok');
     this.registerActivityForNudge();
     return false;
   },
@@ -2392,7 +2426,7 @@ const App = {
     this.closeModal('modalGasto');
     this.refreshAll();
     if(this.currentScreen==='gastos') this.renderGastos();
-    toast('✅ Gasto registrado correctamente', 'ok');
+    toast('Gasto registrado correctamente', 'ok');
     this.registerActivityForNudge();
     return false;
   },
@@ -2406,7 +2440,7 @@ const App = {
     const list = STATE.sales.filter(s=>filterFn(s.date)).sort((a,b)=>b.date-a.date);
     const box = document.getElementById('ventasLista');
     box.innerHTML = list.length ? list.map(s=>this.rowHtml({...s, kind:'venta'})).join('')
-      : `<div class="empty-state"><div class="es-icon">🧾</div><p>No hay ventas en este periodo.</p></div>`;
+      : `<div class="empty-state"><div class="es-icon">${ICONS.receipt}</div><p>No hay ventas en este periodo.</p></div>`;
   },
 
   /* ---------- GASTOS screen ---------- */
@@ -2418,7 +2452,7 @@ const App = {
     const list = STATE.expenses.filter(e=>filterFn(e.date)).sort((a,b)=>b.date-a.date);
     const box = document.getElementById('gastosLista');
     box.innerHTML = list.length ? list.map(e=>this.rowHtml({...e, kind:'gasto'})).join('')
-      : `<div class="empty-state"><div class="es-icon">🧾</div><p>No hay gastos en este periodo.</p></div>`;
+      : `<div class="empty-state"><div class="es-icon">${ICONS.receipt}</div><p>No hay gastos en este periodo.</p></div>`;
   },
 
   /* ---------- REPORTES screen ---------- */
@@ -2437,7 +2471,7 @@ const App = {
     const box = document.getElementById('repPremiumBox');
     if(!STATE.premium.active){
       box.innerHTML = `<div class="plan-card featured" style="margin-top:6px;">
-        <span class="lock-badge">🔒 PREMIUM</span>
+        <span class="lock-badge"><svg viewBox="0 0 24 24" fill="none" style="width:11px;height:11px;"><rect x="5" y="11" width="14" height="9" rx="2" stroke="currentColor" stroke-width="2"/><path d="M8 11V7a4 4 0 018 0v4" stroke="currentColor" stroke-width="2"/></svg> PREMIUM</span>
         <div class="pc-name" style="margin-top:10px;">Reportes por mes y exportables</div>
         <p style="font-size:12.5px;color:var(--ink-soft);margin:6px 0 14px;">Con Premium ves el histórico completo de tu negocio, comparas meses y exportas todo a Excel.</p>
         <button class="btn btn-gold btn-block" onclick="App.go('premium')">Ver Plan Premium</button>
@@ -2478,15 +2512,15 @@ const App = {
   renderProductos(){
     const box = document.getElementById('productosLista');
     if(!STATE.products.length){
-      box.innerHTML = `<div class="empty-state"><div class="es-icon">📦</div><p>Aún no tienes productos.<br>Agrega el primero para llevar tu inventario.</p></div>`;
+      box.innerHTML = `<div class="empty-state"><div class="es-icon">${ICONS.box}</div><p>Aún no tienes productos.<br>Agrega el primero para llevar tu inventario.</p></div>`;
       return;
     }
     box.innerHTML = STATE.products.map(p=>`
       <div class="list-row">
-        <div class="lr-icon" style="background:var(--green-light)">📦</div>
+        <div class="lr-icon" style="background:var(--green-light);color:var(--green-dark)">${ICONS.box}</div>
         <div class="lr-body">
           <div class="lr-title">${escapeHtml(p.name)}</div>
-          <div class="lr-sub">${money(p.price)} · Stock: ${p.stock}${p.stock<=3?' ⚠️ bajo':''}</div>
+          <div class="lr-sub">${money(p.price)} · Stock: ${p.stock}${p.stock<=3?' <span style="color:var(--amber);font-weight:700;">· bajo</span>':''}</div>
         </div>
         <button class="btn btn-outline btn-sm" onclick="App.editProducto('${p.id}')">Editar</button>
         <button class="lr-del" onclick="App.deleteProducto('${p.id}')">✕</button>
@@ -2529,7 +2563,7 @@ const App = {
     document.getElementById('formProducto').reset();
     this.closeModal('modalProducto');
     this.renderProductos();
-    toast('✅ Producto guardado', 'ok');
+    toast('Producto guardado', 'ok');
     return false;
   },
 
@@ -2552,7 +2586,7 @@ const App = {
     STATE.session.user.phone = document.getElementById('cuentaTelefono').value.trim();
     saveState();
     this.updateDrawerAndAccount();
-    toast('✅ Datos guardados', 'ok');
+    toast('Datos guardados', 'ok');
   },
 
   /* ---------- MI NEGOCIO ---------- */
@@ -2568,7 +2602,7 @@ const App = {
       moneda: document.getElementById('negMoneda').value
     });
     this.refreshAll();
-    toast('✅ Información del negocio actualizada', 'ok');
+    toast('Información del negocio actualizada', 'ok');
   },
 
   /* ---------- CONFIGURACIÓN ---------- */
@@ -2598,7 +2632,7 @@ const App = {
   async toggleInventario(val){
     await DB.saveBusiness({ usaInventario: val });
     document.querySelectorAll('.js-productos-btn').forEach(el=> el.hidden = !val);
-    toast(val ? '📦 Módulo de inventario activado' : 'Módulo de inventario desactivado');
+    toast(val ? 'Módulo de inventario activado' : 'Módulo de inventario desactivado');
   },
   saveConfig(){
     STATE.prefs.notif = document.getElementById('cfgNotif').checked;
@@ -2636,7 +2670,7 @@ const App = {
   renderPremium(){
     const active = STATE.premium.active;
     document.getElementById('premiumSub').textContent = active
-      ? 'Ya tienes Premium activo. ¡Gracias por tu apoyo! 🎉'
+      ? 'Ya tienes Premium activo. ¡Gracias por tu apoyo!'
       : 'Desbloquea reportes avanzados, productos ilimitados y más.';
     document.getElementById('planPremiumCard').style.display = active ? 'none' : 'block';
     document.getElementById('planFreeCard').style.display = active ? 'none' : 'block';
@@ -2658,7 +2692,7 @@ const App = {
       this.closeModal('modalCheckout');
       this.updateDrawerAndAccount();
       this.renderPremium();
-      toast('🎉 ¡Premium activado! Ya tienes todo desbloqueado', 'ok');
+      toast('¡Premium activado! Ya tienes todo desbloqueado', 'ok');
     }catch(err){
       toast(err.message || 'No se pudo procesar el pago', 'err');
     }
@@ -2680,7 +2714,7 @@ const App = {
       </div>`).join('');
   },
   toggleFaq(i){ document.getElementById('faq-'+i).classList.toggle('open'); },
-  contactSupport(){ toast('📩 Escríbenos a soporte@minegocio.com'); },
+  contactSupport(){ toast('Escríbenos a soporte@minegocio.com'); },
 
   /* ---------- AUTENTICACIÓN ---------- */
   async submitRegister(e){
@@ -2697,7 +2731,7 @@ const App = {
       this.dismissNudge();
       this.updateDrawerAndAccount();
       this.renderCuenta();
-      toast('🎉 ¡Cuenta creada! Tu información ya está a salvo', 'ok');
+      toast('¡Cuenta creada! Tu información ya está a salvo', 'ok');
     }catch(err){ errBox.textContent = err.message; errBox.style.display='block'; }
     return false;
   },
@@ -2711,7 +2745,7 @@ const App = {
       this.dismissNudge();
       this.updateDrawerAndAccount();
       this.renderCuenta();
-      toast('👋 ¡Bienvenido de nuevo!', 'ok');
+      toast('¡Bienvenido de nuevo!', 'ok');
     }catch(err){ errBox.textContent = err.message; errBox.style.display='block'; }
     return false;
   },
@@ -2728,9 +2762,9 @@ const App = {
     const s = STATE.session;
     document.getElementById('drawerName').textContent = s.loggedIn ? s.user.name : 'Invitado';
     document.getElementById('drawerEmail').textContent = s.loggedIn ? s.user.email : 'Sin cuenta guardada';
-    document.getElementById('drawerAvatar').textContent = s.loggedIn ? (s.user.name||'U').trim()[0].toUpperCase() : '👤';
+    document.getElementById('drawerAvatar').innerHTML = s.loggedIn ? escapeHtml((s.user.name||'U').trim()[0].toUpperCase()) : ICONS.user;
     const planEl = document.getElementById('drawerPlan');
-    planEl.textContent = STATE.premium.active ? '⭐ Plan Premium' : 'Plan Gratis';
+    planEl.textContent = STATE.premium.active ? 'Plan Premium' : 'Plan Gratis';
     planEl.className = 'dh-plan ' + (STATE.premium.active ? 'premium' : 'free');
     document.getElementById('accountBtn').classList.toggle('has-premium', STATE.premium.active);
     // Solo mostramos "Cerrar sesión" si en verdad hay una sesión iniciada;
