@@ -845,7 +845,7 @@
   .field label{ display:block; font-size:12.5px; font-weight:700; color:var(--ink-soft); margin-bottom:6px; }
   .field input, .field select, .field textarea{
     width:100%; padding:12px 13px; border:1.5px solid var(--line); border-radius:11px;
-    font-size:14.5px; font-family:inherit; color:var(--ink); background:#fff;
+    font-size:16px; font-family:inherit; color:var(--ink); background:#fff;
     transition:border-color .2s ease;
   }
   .field input:focus, .field select:focus, .field textarea:focus{ outline:none; border-color:var(--green); }
@@ -1638,6 +1638,7 @@
   const WHEEL_LOCK_MS = ANIM_MS + 550; // extra buffer to swallow trackpad inertia
 
   window.addEventListener('wheel', (e)=>{
+    if(document.documentElement.classList.contains('app-mode')) return;
     e.preventDefault();
     if(isAnimating || wheelLocked) return;
 
@@ -1663,15 +1664,18 @@
   let touchActive = false;
 
   window.addEventListener('touchstart', (e)=>{
+    if(document.documentElement.classList.contains('app-mode')) return;
     touchStartY = e.touches[0].clientY;
     touchActive = true;
   }, { passive:true });
 
   window.addEventListener('touchmove', (e)=>{
+    if(document.documentElement.classList.contains('app-mode')) return;
     if(touchActive) e.preventDefault();
   }, { passive:false });
 
   window.addEventListener('touchend', (e)=>{
+    if(document.documentElement.classList.contains('app-mode')) return;
     touchActive = false;
     if(isAnimating) return;
     const touchEndY = e.changedTouches[0].clientY;
@@ -1682,6 +1686,7 @@
 
   /* ---- Keyboard navigation ---- */
   window.addEventListener('keydown', (e)=>{
+    if(document.documentElement.classList.contains('app-mode')) return;
     if(e.key === 'ArrowDown' || e.key === 'PageDown'){
       e.preventDefault();
       goTo(current + 1);
