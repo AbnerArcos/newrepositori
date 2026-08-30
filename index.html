@@ -14,6 +14,15 @@
     --line: #E2E8F0;
     --bg: #FFFFFF;
     --bg-soft: #F6F8F7;
+    --red: #E53E3E;
+    --red-dark: #C53030;
+    --red-light: #FCEBEA;
+    --amber: #D97706;
+    --amber-light: #FEF3E0;
+    --gold: #B7791F;
+    --gold-light: #FEF6E4;
+    --radius: 16px;
+    --shadow-card: 0 1px 2px rgba(15,23,42,0.04), 0 1px 1px rgba(15,23,42,0.03);
     --vh: 1vh;
   }
 
@@ -428,6 +437,10 @@
   }
   .fine-print svg{ width:13px; height:13px; }
 
+  .login-link{ margin-top:14px; font-size:13.5px; color:var(--ink-soft); }
+  .login-link a{ color:var(--green); font-weight:700; text-decoration:none; }
+  .login-link a:hover{ text-decoration:underline; }
+
   /* Active-state triggers for entrance animation */
   .section.is-active .hero-inner,
   .section.is-active .s2-inner,
@@ -545,6 +558,421 @@
     .hero-inner,.s2-inner,.s3-inner{ animation:none !important; opacity:1; transform:none; }
     .scroll-hint{ animation:none; }
   }
+
+  /* =========================================================
+     APP — estilos de la aplicación (dashboard, menús, modales)
+  ==============================================================*/
+  html.app-mode, html.app-mode body{ overflow:auto; height:auto; background:var(--bg-soft); }
+
+  #appRoot{
+    min-height: calc(var(--vh) * 100);
+    width:100%;
+    display:flex;
+    align-items:stretch;
+    justify-content:center;
+    background:var(--bg-soft);
+    padding:0;
+  }
+  #appRoot[hidden]{ display:none; }
+
+  /* App shell: fills the full screen and adapts to the viewport width,
+     instead of being capped to a fixed phone-sized box. */
+  .phone-frame{
+    width:100%;
+    max-width:100%;
+    flex:1 1 auto;
+    min-height: calc(var(--vh) * 100);
+    background:var(--bg);
+    display:flex;
+    flex-direction:column;
+    position:relative;
+    box-shadow:none;
+  }
+
+  /* ===== Desktop sidebar navigation (replaces the phone-style bottom nav) ===== */
+  .app-sidebar{
+    display:none;
+    flex-direction:column;
+    width:264px;
+    flex-shrink:0;
+    background:#fff;
+    border-right:1px solid var(--line);
+    position:sticky;
+    top:0;
+    height:100vh;
+    padding:22px 14px 16px;
+  }
+  .sidebar-brand{ display:flex; align-items:center; gap:10px; padding:6px 10px 26px; }
+  .sidebar-brand .brand-icon{ width:34px; height:34px; }
+  .sidebar-brand .brand-icon svg{ width:18px; height:18px; }
+  .sidebar-brand .brand-name{ font-size:17px; }
+  .sidebar-menu{ flex:1; display:flex; flex-direction:column; gap:2px; overflow-y:auto; }
+  .sidebar-divider{ height:1px; background:var(--line); margin:12px 8px; flex-shrink:0; }
+  .sidebar-footer{ padding-top:12px; border-top:1px solid var(--line); margin-top:12px; flex-shrink:0; }
+
+
+
+  .app-topbar{
+    flex-shrink:0;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:18px 20px 10px;
+    background:var(--bg);
+  }
+  .app-topbar .brand{ margin-bottom:0; }
+  .app-topbar .brand-name{ font-size:17px; }
+  .app-topbar .brand-icon{ width:32px; height:32px; }
+  .app-topbar .brand-icon svg{ width:17px; height:17px; }
+
+  .icon-btn{
+    width:38px; height:38px;
+    border-radius:50%;
+    border:1px solid var(--line);
+    background:#fff;
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    transition: background .2s ease, border-color .2s ease, transform .15s ease;
+    position:relative;
+  }
+  .icon-btn:hover{ background:var(--green-light); border-color:var(--green); }
+  .icon-btn:active{ transform:scale(.94); }
+  .icon-btn svg{ width:18px; height:18px; }
+  .icon-btn .badge-dot{
+    position:absolute; top:-2px; right:-2px;
+    width:9px; height:9px; border-radius:50%;
+    background:var(--gold); border:2px solid #fff;
+    display:none;
+  }
+  .icon-btn.has-premium .badge-dot{ display:block; }
+
+  .app-body{
+    flex:1;
+    overflow-y:auto;
+    -webkit-overflow-scrolling:touch;
+    padding:6px 20px 100px;
+  }
+  .app-body::-webkit-scrollbar{ width:6px; }
+  .app-body::-webkit-scrollbar-thumb{ background:#DCE3E8; border-radius:6px; }
+
+  .screen{ animation: fadeUp .35s ease; }
+  .screen[hidden]{ display:none; }
+  @keyframes fadeUp{ from{ opacity:0; transform:translateY(8px);} to{ opacity:1; transform:none; } }
+
+  .greeting-wave{ font-size:20px; }
+  .screen-title{ font-size:15px; color:var(--ink-soft); font-weight:500; margin-bottom:2px; }
+  .screen-title.wave{ display:flex; align-items:center; gap:6px; }
+  .screen-heading{ font-size:26px; font-weight:800; letter-spacing:-0.02em; margin-bottom:6px; }
+  .screen-sub{ font-size:13.5px; color:var(--ink-soft); margin-bottom:20px; }
+
+  .stat-card{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:18px;
+    margin-bottom:14px;
+    box-shadow:var(--shadow-card);
+  }
+  .stat-row{ display:flex; flex-direction:column; }
+
+  .stat-icon{
+    width:52px; height:52px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0; font-size:22px;
+  }
+  .stat-icon.up{ background:var(--green-light); }
+  .stat-icon.down{ background:var(--red-light); }
+  .stat-icon.profit{ background:var(--green-light); }
+  .stat-icon svg{ width:22px; height:22px; }
+  .stat-info{ flex:1; min-width:0; }
+  .stat-label{ font-size:13.5px; color:var(--ink-soft); margin-bottom:2px; }
+  .stat-value{ font-size:26px; font-weight:800; letter-spacing:-0.02em; }
+  .stat-value.negative{ color:var(--red-dark); }
+  .stat-value.positive{ color:var(--green-dark); }
+
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    border:none; border-radius:12px; font-weight:700; font-size:14px;
+    padding:12px 16px; cursor:pointer;
+    transition: transform .15s ease, box-shadow .2s ease, background .2s ease, opacity .2s ease;
+    font-family:inherit;
+  }
+  .btn:active{ transform:scale(.97); }
+  .btn-green{ background:var(--green); color:#fff; box-shadow:0 8px 18px -8px rgba(22,163,74,.5); }
+  .btn-green:hover{ background:var(--green-dark); }
+  .btn-red{ background:var(--red); color:#fff; box-shadow:0 8px 18px -8px rgba(229,62,62,.45); }
+  .btn-red:hover{ background:var(--red-dark); }
+  .btn-outline{ background:#fff; color:var(--ink); border:1px solid var(--line); }
+  .btn-outline:hover{ border-color:var(--green); color:var(--green-dark); }
+  .btn-gold{ background:linear-gradient(135deg,#F6C453,#D9962F); color:#5A3B10; box-shadow:0 8px 18px -8px rgba(217,150,47,.5); }
+  .btn-ghost{ background:transparent; color:var(--ink-soft); }
+  .btn-ghost:hover{ color:var(--ink); }
+  .btn-block{ width:100%; }
+  .btn-sm{ padding:8px 12px; font-size:12.5px; border-radius:9px; }
+  .btn[disabled]{ opacity:.55; cursor:not-allowed; }
+
+  .stat-card .btn{ flex-shrink:0; white-space:nowrap; }
+
+  .tip-card{
+    display:flex; gap:12px; align-items:flex-start;
+    background:var(--green-light); border-radius:14px; padding:16px;
+    margin-top:6px; margin-bottom:20px;
+  }
+  .tip-card .tip-icon{ font-size:18px; flex-shrink:0; }
+  .tip-card b{ color:var(--green-dark); }
+  .tip-card p{ font-size:13px; color:#1F5132; line-height:1.5; margin-top:2px; }
+
+  .section-label{
+    display:flex; align-items:center; justify-content:space-between;
+    margin: 22px 0 10px;
+  }
+  .section-label h3{ font-size:14.5px; font-weight:800; }
+  .section-label a{ font-size:12.5px; color:var(--green); font-weight:700; cursor:pointer; text-decoration:none; }
+
+  .list-row{
+    display:flex; align-items:center; gap:12px;
+    background:#fff; border:1px solid var(--line); border-radius:14px;
+    padding:13px 14px; margin-bottom:9px;
+  }
+  .list-row .lr-icon{ width:38px; height:38px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:17px; flex-shrink:0; }
+  .list-row .lr-body{ flex:1; min-width:0; }
+  .list-row .lr-title{ font-size:14px; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .list-row .lr-sub{ font-size:12px; color:var(--ink-soft); }
+  .list-row .lr-amount{ font-size:14.5px; font-weight:800; flex-shrink:0; }
+  .list-row .lr-amount.pos{ color:var(--green-dark); }
+  .list-row .lr-amount.neg{ color:var(--red-dark); }
+  .list-row .lr-del{ flex-shrink:0; width:26px; height:26px; border-radius:50%; border:none; background:transparent; color:#CBD5E1; cursor:pointer; font-size:15px; }
+  .list-row .lr-del:hover{ background:var(--red-light); color:var(--red-dark); }
+
+  .empty-state{ text-align:center; padding:34px 10px; color:var(--ink-soft); }
+  .empty-state .es-icon{ font-size:34px; margin-bottom:10px; }
+  .empty-state p{ font-size:13.5px; }
+
+  .totals-row{ display:flex; gap:10px; margin-bottom:16px; }
+  .total-chip{ flex:1; background:#fff; border:1px solid var(--line); border-radius:14px; padding:12px 14px; text-align:center; }
+  .total-chip .tc-label{ font-size:11.5px; color:var(--ink-soft); margin-bottom:4px; }
+  .total-chip .tc-value{ font-size:16.5px; font-weight:800; }
+
+  .filter-pills{ display:flex; gap:8px; margin-bottom:14px; overflow-x:auto; padding-bottom:2px; }
+  .pill{ flex-shrink:0; padding:7px 14px; border-radius:999px; border:1px solid var(--line); background:#fff; font-size:12.5px; font-weight:700; color:var(--ink-soft); cursor:pointer; }
+  .pill.active{ background:var(--ink); color:#fff; border-color:var(--ink); }
+
+  /* Bottom nav */
+  .bottom-nav{
+    flex-shrink:0;
+    display:flex; align-items:stretch; justify-content:space-around;
+    border-top:1px solid var(--line);
+    background:#fff; padding:8px 4px calc(8px + env(safe-area-inset-bottom,0px));
+  }
+  .nav-item{
+    background:none; border:none; cursor:pointer;
+    display:flex; flex-direction:column; align-items:center; gap:3px;
+    color:#94A3B8; font-size:11px; font-weight:600; padding:6px 10px; border-radius:10px;
+    font-family:inherit;
+  }
+  .nav-item svg{ width:22px; height:22px; }
+  .nav-item.active{ color:var(--green); }
+  .nav-item:hover{ background:var(--bg-soft); }
+
+  /* Drawer */
+  .drawer-overlay{
+    position:fixed; inset:0; background:rgba(15,23,42,.45);
+    z-index:200; opacity:0; transition:opacity .25s ease;
+  }
+  .drawer-overlay[hidden]{ display:none; }
+  .drawer-overlay.show{ opacity:1; }
+
+  .drawer{
+    position:fixed; top:0; right:0; height:100%;
+    width:min(320px, 86vw);
+    background:#fff; z-index:201;
+    display:flex; flex-direction:column;
+    transform:translateX(100%);
+    transition:transform .3s cubic-bezier(.22,1,.36,1);
+    box-shadow:-10px 0 40px rgba(15,23,42,.15);
+  }
+  .drawer[hidden]{ display:none; }
+  .drawer.show{ transform:translateX(0); }
+
+  .drawer-header{ padding:26px 22px 18px; border-bottom:1px solid var(--line); }
+  .drawer-avatar{ width:52px; height:52px; border-radius:50%; background:var(--green-light); color:var(--green-dark); font-weight:800; font-size:19px; display:flex; align-items:center; justify-content:center; margin-bottom:12px; }
+  .drawer-header .dh-name{ font-weight:800; font-size:15.5px; }
+  .drawer-header .dh-email{ font-size:12.5px; color:var(--ink-soft); }
+  .drawer-header .dh-plan{ display:inline-flex; align-items:center; gap:5px; margin-top:8px; font-size:11px; font-weight:800; padding:4px 10px; border-radius:999px; }
+  .drawer-header .dh-plan.free{ background:var(--bg-soft); color:var(--ink-soft); }
+  .drawer-header .dh-plan.premium{ background:var(--gold-light); color:var(--gold); }
+
+  .drawer-menu{ flex:1; overflow-y:auto; padding:10px 12px; }
+  .drawer-item{
+    display:flex; align-items:center; gap:13px; width:100%;
+    padding:12px 12px; border:none; background:none; text-align:left;
+    border-radius:12px; cursor:pointer; font-family:inherit; font-size:14px; font-weight:600; color:var(--ink);
+  }
+  .drawer-item:hover{ background:var(--bg-soft); }
+  .drawer-item.active{ background:var(--green-light); color:var(--green-dark); }
+  .drawer-item .di-icon{ font-size:17px; width:22px; text-align:center; flex-shrink:0; }
+  .drawer-item.logout{ color:var(--red-dark); }
+  .drawer-footer{ padding:14px 22px 22px; border-top:1px solid var(--line); font-size:11px; color:#94A3B8; text-align:center; }
+
+  /* Modals */
+  .modal-overlay{
+    position:fixed; inset:0; background:rgba(15,23,42,.5);
+    z-index:300; display:flex; align-items:flex-end; justify-content:center;
+    opacity:0; transition:opacity .2s ease;
+  }
+  .modal-overlay[hidden]{ display:none; }
+  .modal-overlay.show{ opacity:1; }
+  @media (min-width:640px){ .modal-overlay{ align-items:center; } }
+
+  .modal-card{
+    background:#fff; width:100%; max-width:420px;
+    border-radius:22px 22px 0 0; padding:22px 22px calc(22px + env(safe-area-inset-bottom,0px));
+    max-height:88vh; overflow-y:auto;
+    transform:translateY(30px); transition:transform .25s cubic-bezier(.22,1,.36,1);
+  }
+  .modal-overlay.show .modal-card{ transform:translateY(0); }
+  @media (min-width:640px){ .modal-card{ border-radius:20px; max-height:82vh; } }
+
+  .modal-handle{ width:38px; height:4px; background:var(--line); border-radius:3px; margin:0 auto 16px; }
+  .modal-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; }
+  .modal-head h3{ font-size:18px; font-weight:800; }
+  .modal-close{ width:30px; height:30px; border-radius:50%; border:none; background:var(--bg-soft); color:var(--ink-soft); font-size:16px; cursor:pointer; }
+
+  .field{ margin-bottom:14px; }
+  .field label{ display:block; font-size:12.5px; font-weight:700; color:var(--ink-soft); margin-bottom:6px; }
+  .field input, .field select, .field textarea{
+    width:100%; padding:12px 13px; border:1.5px solid var(--line); border-radius:11px;
+    font-size:14.5px; font-family:inherit; color:var(--ink); background:#fff;
+    transition:border-color .2s ease;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus{ outline:none; border-color:var(--green); }
+  .field-amount{ position:relative; }
+  .field-amount .curr{ position:absolute; left:13px; top:50%; transform:translateY(-50%); color:var(--ink-soft); font-weight:700; }
+  .field-amount input{ padding-left:26px; font-size:22px; font-weight:800; }
+  .chip-row{ display:flex; gap:8px; flex-wrap:wrap; }
+  .chip-opt{ padding:8px 13px; border-radius:999px; border:1.5px solid var(--line); background:#fff; font-size:12.5px; font-weight:700; cursor:pointer; color:var(--ink-soft); }
+  .chip-opt.sel{ background:var(--ink); border-color:var(--ink); color:#fff; }
+  .field-error{ color:var(--red-dark); font-size:12px; margin-top:5px; display:none; }
+  .field-error.show{ display:block; }
+
+  .auth-tabs{ display:flex; gap:6px; background:var(--bg-soft); padding:4px; border-radius:12px; margin-bottom:18px; }
+  .auth-tab{ flex:1; padding:9px; border:none; background:none; border-radius:9px; font-weight:700; font-size:13.5px; color:var(--ink-soft); cursor:pointer; font-family:inherit; }
+  .auth-tab.active{ background:#fff; color:var(--ink); box-shadow:0 1px 3px rgba(15,23,42,.12); }
+  .auth-panel[hidden]{ display:none; }
+  .auth-note{ font-size:12px; color:var(--ink-soft); text-align:center; margin-top:10px; }
+  .auth-guest{ text-align:center; margin-top:12px; }
+  .auth-guest a{ color:var(--ink-soft); font-size:12.5px; text-decoration:underline; cursor:pointer; }
+
+  /* Toasts */
+  #toastContainer{ position:fixed; top:16px; left:50%; transform:translateX(-50%); z-index:500; display:flex; flex-direction:column; gap:8px; width:min(360px,92vw); }
+  .toast{
+    background:#0F172A; color:#fff; padding:12px 16px; border-radius:12px; font-size:13.5px; font-weight:600;
+    display:flex; align-items:center; gap:9px; box-shadow:0 10px 30px rgba(15,23,42,.3);
+    animation: toastIn .3s cubic-bezier(.22,1,.36,1);
+  }
+  .toast.ok{ background:#0F5132; }
+  .toast.err{ background:var(--red-dark); }
+  @keyframes toastIn{ from{ opacity:0; transform:translateY(-14px);} to{ opacity:1; transform:none; } }
+  .toast.out{ animation: toastOut .25s ease forwards; }
+  @keyframes toastOut{ to{ opacity:0; transform:translateY(-10px); } }
+
+  /* Signup nudge (sutil) */
+  .signup-nudge[hidden]{ display:none; }
+  .signup-nudge{
+    position:fixed; left:50%; bottom:92px; transform:translateX(-50%) translateY(140%);
+    z-index:250; width:min(420px,92vw);
+    background:#fff; border:1px solid var(--line); border-radius:16px; padding:16px;
+    box-shadow:0 18px 45px -12px rgba(15,23,42,.35);
+    display:flex; gap:12px; align-items:flex-start;
+    transition: transform .45s cubic-bezier(.22,1,.36,1);
+  }
+  .signup-nudge.show{ transform:translateX(-50%) translateY(0); }
+  .signup-nudge .sn-icon{ font-size:22px; flex-shrink:0; }
+  .signup-nudge .sn-body{ flex:1; }
+  .signup-nudge .sn-title{ font-weight:800; font-size:13.5px; margin-bottom:3px; }
+  .signup-nudge .sn-text{ font-size:12.5px; color:var(--ink-soft); line-height:1.4; margin-bottom:10px; }
+  .signup-nudge .sn-actions{ display:flex; gap:8px; }
+  .signup-nudge .sn-close{ position:absolute; top:8px; right:10px; border:none; background:none; color:#CBD5E1; font-size:14px; cursor:pointer; }
+
+  /* Premium screen */
+  .plan-card{ border:1.5px solid var(--line); border-radius:18px; padding:20px; margin-bottom:14px; position:relative; }
+  .plan-card.featured{ border-color:var(--gold); background:linear-gradient(180deg,var(--gold-light),#fff 40%); }
+  .plan-card .pc-badge{ position:absolute; top:-11px; right:16px; background:var(--gold); color:#fff; font-size:10.5px; font-weight:800; padding:4px 10px; border-radius:999px; }
+  .plan-card .pc-name{ font-weight:800; font-size:15px; margin-bottom:4px; }
+  .plan-card .pc-price{ font-size:26px; font-weight:800; margin-bottom:2px; }
+  .plan-card .pc-price span{ font-size:13px; font-weight:600; color:var(--ink-soft); }
+  .plan-card .pc-list{ list-style:none; margin:14px 0; display:flex; flex-direction:column; gap:8px; }
+  .plan-card .pc-list li{ font-size:13px; display:flex; gap:8px; align-items:flex-start; color:var(--ink); }
+  .plan-card .pc-list li b{ color:var(--green-dark); }
+
+  .compare-table{ width:100%; border-collapse:collapse; font-size:12.5px; margin:18px 0; }
+  .compare-table th, .compare-table td{ padding:9px 6px; text-align:center; border-bottom:1px solid var(--line); }
+  .compare-table th:first-child, .compare-table td:first-child{ text-align:left; color:var(--ink-soft); }
+  .compare-table th{ font-size:11px; color:var(--ink-soft); font-weight:700; }
+
+  .toggle{ position:relative; width:44px; height:26px; flex-shrink:0; }
+  .toggle input{ opacity:0; width:0; height:0; position:absolute; }
+  .toggle .slider{ position:absolute; inset:0; background:#CBD5E1; border-radius:999px; cursor:pointer; transition:background .2s ease; }
+  .toggle .slider::before{ content:''; position:absolute; width:20px; height:20px; left:3px; top:3px; background:#fff; border-radius:50%; transition:transform .2s ease; }
+  .toggle input:checked + .slider{ background:var(--green); }
+  .toggle input:checked + .slider::before{ transform:translateX(18px); }
+
+  .settings-row{ display:flex; align-items:center; justify-content:space-between; gap:12px; background:#fff; border:1px solid var(--line); border-radius:14px; padding:14px 16px; margin-bottom:10px; }
+  .settings-row .sr-title{ font-size:14px; font-weight:700; }
+  .settings-row .sr-sub{ font-size:12px; color:var(--ink-soft); margin-top:2px; }
+
+  .faq-item{ border-bottom:1px solid var(--line); padding:14px 0; }
+  .faq-q{ display:flex; justify-content:space-between; align-items:center; cursor:pointer; font-weight:700; font-size:14px; }
+  .faq-a{ font-size:13px; color:var(--ink-soft); line-height:1.55; margin-top:8px; display:none; }
+  .faq-item.open .faq-a{ display:block; }
+  .faq-item.open .faq-q .fq-chev{ transform:rotate(180deg); }
+  .fq-chev{ transition:transform .2s ease; flex-shrink:0; }
+
+  .avatar-lg{ width:64px; height:64px; border-radius:50%; background:var(--green-light); color:var(--green-dark); font-weight:800; font-size:24px; display:flex; align-items:center; justify-content:center; margin-bottom:14px; }
+
+  .mini-chart{ background:#fff; border:1px solid var(--line); border-radius:16px; padding:16px; margin-bottom:16px; }
+  .mini-chart canvas{ width:100%; display:block; }
+  .chart-legend{ display:flex; gap:16px; margin-top:10px; font-size:12px; color:var(--ink-soft); }
+  .chart-legend span{ display:inline-flex; align-items:center; gap:6px; }
+  .chart-legend i{ width:9px; height:9px; border-radius:3px; display:inline-block; }
+
+  .lock-badge{ display:inline-flex; align-items:center; gap:5px; font-size:11px; font-weight:800; color:var(--gold); background:var(--gold-light); padding:3px 9px; border-radius:999px; }
+
+  @media (max-width:380px){
+    .app-body{ padding:6px 14px 96px; }
+    .stat-card{ padding:14px; gap:10px; }
+    .stat-icon{ width:44px; height:44px; font-size:18px; }
+    .stat-value{ font-size:21px; }
+  }
+
+  /* =========================================================
+     APP — diseño de escritorio: sidebar fija en vez de nav
+     inferior tipo celular, y contenido usando todo el ancho.
+  ==============================================================*/
+  @media (min-width: 900px){
+    .app-sidebar{ display:flex; }
+    #appRoot{ justify-content:stretch; }
+    .phone-frame{ min-height:100vh; }
+    .app-topbar{ padding:22px 40px 12px; justify-content:flex-end; }
+    .app-topbar .brand{ display:none; }
+    .app-body{ max-width:1120px; width:100%; margin:0 auto; padding:8px 40px 60px; }
+    .bottom-nav{ display:none; }
+
+    .stat-row{ display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:16px; }
+    .stat-row .stat-card{ flex-direction:column; align-items:flex-start; margin-bottom:0; }
+    .stat-row .stat-card .btn{ align-self:stretch; margin-top:6px; }
+
+    #productosLista, #ventasLista, #gastosLista, #homeRecent{
+      display:grid; grid-template-columns:repeat(auto-fill, minmax(320px,1fr)); gap:10px; align-content:start;
+    }
+    #productosLista .list-row, #ventasLista .list-row, #gastosLista .list-row, #homeRecent .list-row{ margin-bottom:0; }
+    #productosLista .empty-state, #ventasLista .empty-state, #gastosLista .empty-state{ grid-column:1/-1; }
+
+    .plan-card{ max-width:400px; }
+  }
 </style>
 </head>
 <body>
@@ -650,7 +1078,7 @@
         <h2>Listo para hacer<br><span class="accent">crecer</span> tu negocio</h2>
         <p>Únete a miles de negocios que ya están tomando el control de sus finanzas.</p>
 
-        <button class="cta-btn">
+        <button class="cta-btn" onclick="App.enter()">
           Iniciar ahora
           <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#fff" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
@@ -659,11 +1087,494 @@
           <svg viewBox="0 0 24 24" fill="none"><rect x="5" y="11" width="14" height="9" rx="2" stroke="#475569" stroke-width="1.8"/><path d="M8 11V7a4 4 0 018 0v4" stroke="#475569" stroke-width="1.8"/></svg>
           Gratis para empezar. Sin tarjeta de crédito.
         </div>
+
+        <div class="login-link">
+          ¿Ya tienes cuenta? <a href="#" onclick="event.preventDefault(); App.enter(); App.openAuth('login');">Inicia sesión</a>
+        </div>
       </div>
     </section>
 
   </div>
 </div>
+
+<!-- =========================================================
+     APLICACIÓN (SPA) — dashboard, ventas, gastos, reportes,
+     productos, cuenta, negocio, configuración, premium, ayuda
+========================================================== -->
+<div id="appRoot" hidden>
+  <aside class="app-sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-icon">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M4 20V14M10 20V8M16 20V11M22 20V4" stroke="#16A34A" stroke-width="2.6" stroke-linecap="round"/></svg>
+      </div>
+      <div class="brand-name">Mi<span>Negocio</span></div>
+    </div>
+    <nav class="sidebar-menu">
+      <button class="drawer-item" data-screen="home" onclick="App.go('home')"><span class="di-icon">🏠</span>Inicio</button>
+      <button class="drawer-item" data-screen="ventas" onclick="App.go('ventas')"><span class="di-icon">💰</span>Ventas</button>
+      <button class="drawer-item" data-screen="gastos" onclick="App.go('gastos')"><span class="di-icon">💸</span>Gastos</button>
+      <button class="drawer-item js-productos-btn" data-screen="productos" onclick="App.go('productos')" hidden><span class="di-icon">📦</span>Productos</button>
+      <button class="drawer-item" data-screen="reportes" onclick="App.go('reportes')"><span class="di-icon">📊</span>Reportes</button>
+      <div class="sidebar-divider"></div>
+      <button class="drawer-item" data-screen="cuenta" onclick="App.go('cuenta')"><span class="di-icon">👤</span>Mi cuenta</button>
+      <button class="drawer-item" data-screen="negocio" onclick="App.go('negocio')"><span class="di-icon">🏪</span>Mi negocio</button>
+      <button class="drawer-item" data-screen="config" onclick="App.go('config')"><span class="di-icon">⚙️</span>Configuración</button>
+      <button class="drawer-item" data-screen="premium" onclick="App.go('premium')"><span class="di-icon">⭐</span>Plan Premium</button>
+      <button class="drawer-item" data-screen="ayuda" onclick="App.go('ayuda')"><span class="di-icon">❓</span>Ayuda</button>
+    </nav>
+    <div class="sidebar-footer">
+      <button class="drawer-item logout" onclick="App.logout()"><span class="di-icon">🚪</span>Cerrar sesión</button>
+    </div>
+  </aside>
+
+  <div class="phone-frame">
+
+    <div class="app-topbar">
+      <div class="brand">
+        <div class="brand-icon">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M4 20V14M10 20V8M16 20V11M22 20V4" stroke="#16A34A" stroke-width="2.6" stroke-linecap="round"/></svg>
+        </div>
+        <div class="brand-name">Mi<span>Negocio</span></div>
+      </div>
+      <button class="icon-btn" id="accountBtn" onclick="App.go('cuenta')" aria-label="Mi cuenta">
+        <span class="badge-dot"></span>
+        <svg viewBox="0 0 24 24" fill="none"><path d="M20 21a8 8 0 10-16 0" stroke="#0F172A" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="8" r="4" stroke="#0F172A" stroke-width="1.8"/></svg>
+      </button>
+    </div>
+
+    <div class="app-body" id="appBody">
+
+      <!-- INICIO -->
+      <section class="screen" id="screen-home">
+        <div class="screen-title wave"><span>¡Buenos <span id="greetTime">días</span>! 👋</span></div>
+        <h1 class="screen-heading" id="homeBizName">Mi Negocio</h1>
+        <p class="screen-sub" id="homeToday">Hoy es …</p>
+
+        <div class="stat-row">
+        <div class="stat-card">
+          <div class="stat-icon up">📈</div>
+          <div class="stat-info">
+            <div class="stat-label">Vendiste hoy</div>
+            <div class="stat-value positive" id="statVentasHoy">$0</div>
+          </div>
+          <button class="btn btn-green" onclick="App.openModal('modalVenta')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/></svg>
+            Registrar venta
+          </button>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon down">📉</div>
+          <div class="stat-info">
+            <div class="stat-label">Gastaste hoy</div>
+            <div class="stat-value negative" id="statGastosHoy">$0</div>
+          </div>
+          <button class="btn btn-red" onclick="App.openModal('modalGasto')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/></svg>
+            Registrar gasto
+          </button>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon profit">💰</div>
+          <div class="stat-info">
+            <div class="stat-label">Llevas ganado hoy</div>
+            <div class="stat-value" id="statGananciaHoy">$0</div>
+          </div>
+          <button class="btn btn-outline" onclick="App.go('reportes')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M4 20V14M10 20V8M16 20V11M22 20V4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+            Ver resultados
+          </button>
+        </div>
+        </div>
+
+        <div class="tip-card">
+          <div class="tip-icon">💡</div>
+          <p><b>Tip del día</b><br>Lleva tu registro al día y conoce mejor tu negocio.</p>
+        </div>
+
+        <div class="section-label"><h3>Movimientos recientes</h3><a onclick="App.go('ventas')">Ver todo</a></div>
+        <div id="homeRecent"></div>
+      </section>
+
+      <!-- VENTAS -->
+      <section class="screen" id="screen-ventas" hidden>
+        <h1 class="screen-heading">Ventas</h1>
+        <p class="screen-sub">Registra y consulta todas tus ventas.</p>
+
+        <div class="totals-row">
+          <div class="total-chip"><div class="tc-label">Hoy</div><div class="tc-value" id="ventasTotalHoy">$0</div></div>
+          <div class="total-chip"><div class="tc-label">Esta semana</div><div class="tc-value" id="ventasTotalSemana">$0</div></div>
+          <div class="total-chip"><div class="tc-label">Este mes</div><div class="tc-value" id="ventasTotalMes">$0</div></div>
+        </div>
+
+        <button class="btn btn-green btn-block" onclick="App.openModal('modalVenta')" style="margin-bottom:16px;">+ Registrar venta</button>
+
+        <div class="filter-pills" id="ventasFiltros">
+          <button class="pill active" data-f="hoy">Hoy</button>
+          <button class="pill" data-f="semana">Semana</button>
+          <button class="pill" data-f="mes">Mes</button>
+          <button class="pill" data-f="todo">Todo</button>
+        </div>
+
+        <div id="ventasLista"></div>
+      </section>
+
+      <!-- GASTOS -->
+      <section class="screen" id="screen-gastos" hidden>
+        <h1 class="screen-heading">Gastos</h1>
+        <p class="screen-sub">Registra y consulta todos tus gastos.</p>
+
+        <div class="totals-row">
+          <div class="total-chip"><div class="tc-label">Hoy</div><div class="tc-value" id="gastosTotalHoy">$0</div></div>
+          <div class="total-chip"><div class="tc-label">Esta semana</div><div class="tc-value" id="gastosTotalSemana">$0</div></div>
+          <div class="total-chip"><div class="tc-label">Este mes</div><div class="tc-value" id="gastosTotalMes">$0</div></div>
+        </div>
+
+        <button class="btn btn-red btn-block" onclick="App.openModal('modalGasto')" style="margin-bottom:16px;">+ Registrar gasto</button>
+
+        <div class="filter-pills" id="gastosFiltros">
+          <button class="pill active" data-f="hoy">Hoy</button>
+          <button class="pill" data-f="semana">Semana</button>
+          <button class="pill" data-f="mes">Mes</button>
+          <button class="pill" data-f="todo">Todo</button>
+        </div>
+
+        <div id="gastosLista"></div>
+      </section>
+
+      <!-- REPORTES -->
+      <section class="screen" id="screen-reportes" hidden>
+        <h1 class="screen-heading">Reportes</h1>
+        <p class="screen-sub">Así se ha comportado tu negocio.</p>
+
+        <div class="totals-row">
+          <div class="total-chip"><div class="tc-label">Ventas (7 días)</div><div class="tc-value" id="repVentas7">$0</div></div>
+          <div class="total-chip"><div class="tc-label">Gastos (7 días)</div><div class="tc-value" id="repGastos7">$0</div></div>
+          <div class="total-chip"><div class="tc-label">Ganancia (7 días)</div><div class="tc-value" id="repGanancia7">$0</div></div>
+        </div>
+
+        <div class="mini-chart">
+          <canvas id="repChart" width="600" height="220"></canvas>
+          <div class="chart-legend">
+            <span><i style="background:var(--green)"></i>Ventas</span>
+            <span><i style="background:var(--red)"></i>Gastos</span>
+          </div>
+        </div>
+
+        <div id="repPremiumBox"></div>
+      </section>
+
+      <!-- PRODUCTOS -->
+      <section class="screen" id="screen-productos" hidden>
+        <h1 class="screen-heading">Productos</h1>
+        <p class="screen-sub">Controla tu inventario y el stock disponible.</p>
+        <button class="btn btn-green btn-block" onclick="App.openModal('modalProducto')" style="margin-bottom:16px;">+ Agregar producto</button>
+        <div id="productosLista"></div>
+      </section>
+
+      <!-- MI CUENTA -->
+      <section class="screen" id="screen-cuenta" hidden>
+        <h1 class="screen-heading">Mi cuenta</h1>
+        <div id="cuentaLoggedOut" hidden>
+          <p class="screen-sub">Crea una cuenta gratis para guardar tu información de forma segura y acceder desde cualquier dispositivo.</p>
+          <button class="btn btn-green btn-block" onclick="App.openAuth('register')">Crear cuenta gratis</button>
+          <button class="btn btn-outline btn-block" style="margin-top:10px;" onclick="App.openAuth('login')">Ya tengo cuenta</button>
+        </div>
+        <div id="cuentaLoggedIn" hidden>
+          <div class="avatar-lg" id="cuentaAvatar">U</div>
+          <div class="field"><label>Nombre</label><input id="cuentaNombre" type="text" placeholder="Tu nombre"></div>
+          <div class="field"><label>Correo electrónico</label><input id="cuentaEmail" type="email" placeholder="tucorreo@ejemplo.com"></div>
+          <div class="field"><label>Teléfono (opcional)</label><input id="cuentaTelefono" type="tel" placeholder="10 dígitos"></div>
+          <button class="btn btn-green btn-block" onclick="App.saveCuenta()">Guardar cambios</button>
+        </div>
+      </section>
+
+      <!-- MI NEGOCIO -->
+      <section class="screen" id="screen-negocio" hidden>
+        <h1 class="screen-heading">Mi negocio</h1>
+        <p class="screen-sub">Esta información aparece en tu inicio y tus reportes.</p>
+        <div class="field"><label>Nombre del negocio</label><input id="negNombre" type="text" placeholder="Ej. Mi Panadería"></div>
+        <div class="field"><label>Giro / tipo de negocio</label>
+          <select id="negGiro">
+            <option>Panadería / repostería</option>
+            <option>Abarrotes / tienda</option>
+            <option>Restaurante / comida</option>
+            <option>Ropa / accesorios</option>
+            <option>Servicios</option>
+            <option>Otro</option>
+          </select>
+        </div>
+        <div class="field"><label>Moneda</label>
+          <select id="negMoneda">
+            <option value="$">Peso (MXN) — $</option>
+            <option value="US$">Dólar (USD) — US$</option>
+            <option value="€">Euro (EUR) — €</option>
+          </select>
+        </div>
+        <button class="btn btn-green btn-block" onclick="App.saveNegocio()">Guardar cambios</button>
+      </section>
+
+      <!-- CONFIGURACIÓN -->
+      <section class="screen" id="screen-config" hidden>
+        <h1 class="screen-heading">Configuración</h1>
+        <div class="settings-row">
+          <div><div class="sr-title">Usar inventario</div><div class="sr-sub">Activa el módulo de productos y stock</div></div>
+          <label class="toggle"><input type="checkbox" id="cfgInventario" onchange="App.toggleInventario(this.checked)"><span class="slider"></span></label>
+        </div>
+        <div class="settings-row">
+          <div><div class="sr-title">Notificaciones</div><div class="sr-sub">Avisos y tips dentro de la app</div></div>
+          <label class="toggle"><input type="checkbox" id="cfgNotif" checked onchange="App.saveConfig()"><span class="slider"></span></label>
+        </div>
+        <div class="settings-row">
+          <div><div class="sr-title">Recordatorio diario</div><div class="sr-sub">Te recordamos registrar tus ventas</div></div>
+          <label class="toggle"><input type="checkbox" id="cfgRecordatorio" onchange="App.saveConfig()"><span class="slider"></span></label>
+        </div>
+        <div class="section-label"><h3>Datos</h3></div>
+        <button class="btn btn-outline btn-block" onclick="App.exportData()" style="margin-bottom:10px;">Exportar mis datos (JSON)</button>
+        <button class="btn btn-outline btn-block" style="color:var(--red-dark); border-color:var(--red-light);" onclick="App.confirmResetData()">Borrar todos mis datos</button>
+      </section>
+
+      <!-- PREMIUM -->
+      <section class="screen" id="screen-premium" hidden>
+        <h1 class="screen-heading">Plan Premium</h1>
+        <p class="screen-sub" id="premiumSub">Desbloquea reportes avanzados, productos ilimitados y más.</p>
+
+        <div class="plan-card" id="planFreeCard">
+          <div class="pc-name">Plan Gratis</div>
+          <div class="pc-price">$0 <span>/ mes</span></div>
+          <ul class="pc-list">
+            <li>✅ Registro de ventas y gastos</li>
+            <li>✅ Hasta 10 productos</li>
+            <li>✅ Reporte de los últimos 7 días</li>
+            <li>❌ Reportes por mes / exportar</li>
+          </ul>
+        </div>
+
+        <div class="plan-card featured" id="planPremiumCard">
+          <div class="pc-badge">RECOMENDADO</div>
+          <div class="pc-name">Plan Premium</div>
+          <div class="pc-price" id="premiumPrice">$99 <span>MXN / mes</span></div>
+          <ul class="pc-list">
+            <li><b>✅</b> Productos e inventario ilimitados</li>
+            <li><b>✅</b> Reportes avanzados y por mes</li>
+            <li><b>✅</b> Exportar información</li>
+            <li><b>✅</b> Soporte prioritario</li>
+          </ul>
+          <button class="btn btn-gold btn-block" id="premiumCta" onclick="App.openCheckout('monthly')">Suscribirme ahora</button>
+        </div>
+
+        <div class="chip-row" style="justify-content:center; margin-bottom:18px;">
+          <button class="chip-opt sel" data-plan="monthly" onclick="App.selectPlan('monthly', this)">Mensual</button>
+          <button class="chip-opt" data-plan="yearly" onclick="App.selectPlan('yearly', this)">Anual (2 meses gratis)</button>
+        </div>
+
+        <table class="compare-table">
+          <tr><th>Función</th><th>Gratis</th><th>Premium</th></tr>
+          <tr><td>Ventas y gastos</td><td>✅</td><td>✅</td></tr>
+          <tr><td>Productos</td><td>10</td><td>Ilimitados</td></tr>
+          <tr><td>Reportes</td><td>7 días</td><td>Histórico completo</td></tr>
+          <tr><td>Exportar datos</td><td>—</td><td>✅</td></tr>
+          <tr><td>Soporte</td><td>Estándar</td><td>Prioritario</td></tr>
+        </table>
+      </section>
+
+      <!-- AYUDA -->
+      <section class="screen" id="screen-ayuda" hidden>
+        <h1 class="screen-heading">Ayuda</h1>
+        <p class="screen-sub">Resolvemos tus dudas más comunes.</p>
+        <div id="faqList"></div>
+        <div class="section-label"><h3>¿Necesitas más ayuda?</h3></div>
+        <button class="btn btn-outline btn-block" onclick="App.contactSupport()">Escribir a soporte</button>
+      </section>
+
+    </div>
+
+    <nav class="bottom-nav">
+      <button class="nav-item active" data-screen="home" onclick="App.go('home')">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M3 11l9-7 9 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 10v9a1 1 0 001 1h4v-6h4v6h4a1 1 0 001-1v-9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Inicio
+      </button>
+      <button class="nav-item" data-screen="ventas" onclick="App.go('ventas')">
+        <svg viewBox="0 0 24 24" fill="none"><circle cx="9" cy="21" r="1.4" fill="currentColor"/><circle cx="18" cy="21" r="1.4" fill="currentColor"/><path d="M2.5 3h2l2.6 12.4a2 2 0 002 1.6h7.7a2 2 0 002-1.6L19 8H6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Ventas
+      </button>
+      <button class="nav-item" data-screen="gastos" onclick="App.go('gastos')">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M20 7H4a2 2 0 00-2 2v9a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z" stroke="currentColor" stroke-width="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2" stroke="currentColor" stroke-width="2"/></svg>
+        Gastos
+      </button>
+      <button class="nav-item" id="moreNavBtn" onclick="App.openDrawer()">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        Más
+      </button>
+    </nav>
+  </div>
+</div>
+
+<!-- DRAWER (menú "Más") -->
+<div class="drawer-overlay" id="drawerOverlay" hidden onclick="App.closeDrawer()"></div>
+<aside class="drawer" id="drawer" hidden>
+  <div class="drawer-header">
+    <div class="drawer-avatar" id="drawerAvatar">U</div>
+    <div class="dh-name" id="drawerName">Invitado</div>
+    <div class="dh-email" id="drawerEmail">Sin cuenta guardada</div>
+    <div class="dh-plan free" id="drawerPlan">Plan Gratis</div>
+  </div>
+  <div class="drawer-menu">
+    <button class="drawer-item" data-screen="cuenta" onclick="App.go('cuenta'); App.closeDrawer();"><span class="di-icon">👤</span>Mi cuenta</button>
+    <button class="drawer-item" data-screen="negocio" onclick="App.go('negocio'); App.closeDrawer();"><span class="di-icon">🏪</span>Mi negocio</button>
+    <button class="drawer-item" data-screen="config" onclick="App.go('config'); App.closeDrawer();"><span class="di-icon">⚙️</span>Configuración</button>
+    <button class="drawer-item js-productos-btn" data-screen="productos" id="drawerProductosBtn" onclick="App.go('productos'); App.closeDrawer();" hidden><span class="di-icon">📦</span>Productos</button>
+    <button class="drawer-item" data-screen="reportes" onclick="App.go('reportes'); App.closeDrawer();"><span class="di-icon">📊</span>Reportes</button>
+    <button class="drawer-item" data-screen="premium" onclick="App.go('premium'); App.closeDrawer();"><span class="di-icon">⭐</span>Plan Premium</button>
+    <button class="drawer-item" data-screen="ayuda" onclick="App.go('ayuda'); App.closeDrawer();"><span class="di-icon">❓</span>Ayuda</button>
+    <button class="drawer-item logout" onclick="App.logout()"><span class="di-icon">🚪</span>Cerrar sesión</button>
+  </div>
+  <div class="drawer-footer">MiNegocio v1.0 · Hecho para pequeños negocios</div>
+</aside>
+
+<!-- MODAL: REGISTRAR VENTA -->
+<div class="modal-overlay" id="modalVenta" hidden>
+  <div class="modal-card">
+    <div class="modal-handle"></div>
+    <div class="modal-head"><h3>Registrar venta</h3><button class="modal-close" onclick="App.closeModal('modalVenta')">✕</button></div>
+    <form id="formVenta" onsubmit="return App.submitVenta(event)">
+      <div class="field field-amount">
+        <label>Monto de la venta</label>
+        <span class="curr" id="ventaCurr">$</span>
+        <input type="number" id="ventaMonto" inputmode="decimal" step="0.01" min="0.01" placeholder="0.00" required>
+        <div class="field-error" id="ventaMontoErr">Ingresa un monto válido mayor a $0.</div>
+      </div>
+      <div id="ventaProductoWrap" class="field" hidden>
+        <label>Producto (opcional)</label>
+        <select id="ventaProducto" onchange="App.onVentaProductoChange()"><option value="">— Sin producto —</option></select>
+      </div>
+      <div class="field">
+        <label>Descripción</label>
+        <input type="text" id="ventaDesc" placeholder="Ej. Venta de mostrador">
+      </div>
+      <div class="field">
+        <label>Método de pago</label>
+        <div class="chip-row" id="ventaMetodo">
+          <button type="button" class="chip-opt sel" data-v="Efectivo">Efectivo</button>
+          <button type="button" class="chip-opt" data-v="Tarjeta">Tarjeta</button>
+          <button type="button" class="chip-opt" data-v="Transferencia">Transferencia</button>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-green btn-block">Guardar venta</button>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL: REGISTRAR GASTO -->
+<div class="modal-overlay" id="modalGasto" hidden>
+  <div class="modal-card">
+    <div class="modal-handle"></div>
+    <div class="modal-head"><h3>Registrar gasto</h3><button class="modal-close" onclick="App.closeModal('modalGasto')">✕</button></div>
+    <form id="formGasto" onsubmit="return App.submitGasto(event)">
+      <div class="field field-amount">
+        <label>Monto del gasto</label>
+        <span class="curr" id="gastoCurr">$</span>
+        <input type="number" id="gastoMonto" inputmode="decimal" step="0.01" min="0.01" placeholder="0.00" required>
+        <div class="field-error" id="gastoMontoErr">Ingresa un monto válido mayor a $0.</div>
+      </div>
+      <div class="field">
+        <label>Descripción</label>
+        <input type="text" id="gastoDesc" placeholder="Ej. Compra de insumos">
+      </div>
+      <div class="field">
+        <label>Categoría</label>
+        <div class="chip-row" id="gastoCategoria">
+          <button type="button" class="chip-opt sel" data-v="Insumos">Insumos</button>
+          <button type="button" class="chip-opt" data-v="Servicios">Servicios</button>
+          <button type="button" class="chip-opt" data-v="Renta">Renta</button>
+          <button type="button" class="chip-opt" data-v="Sueldos">Sueldos</button>
+          <button type="button" class="chip-opt" data-v="Otro">Otro</button>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-red btn-block">Guardar gasto</button>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL: PRODUCTO -->
+<div class="modal-overlay" id="modalProducto" hidden>
+  <div class="modal-card">
+    <div class="modal-handle"></div>
+    <div class="modal-head"><h3 id="productoModalTitle">Agregar producto</h3><button class="modal-close" onclick="App.closeModal('modalProducto')">✕</button></div>
+    <form id="formProducto" onsubmit="return App.submitProducto(event)">
+      <input type="hidden" id="productoId">
+      <div class="field"><label>Nombre del producto</label><input type="text" id="productoNombre" placeholder="Ej. Pan de dulce" required></div>
+      <div class="field"><label>Precio de venta</label><input type="number" id="productoPrecio" step="0.01" min="0" placeholder="0.00" required></div>
+      <div class="field"><label>Stock disponible</label><input type="number" id="productoStock" step="1" min="0" placeholder="0" required></div>
+      <button type="submit" class="btn btn-green btn-block">Guardar producto</button>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL: AUTENTICACIÓN (login / registro) -->
+<div class="modal-overlay" id="modalAuth" hidden>
+  <div class="modal-card">
+    <div class="modal-handle"></div>
+    <div class="modal-head"><h3 id="authTitle">Crea tu cuenta</h3><button class="modal-close" onclick="App.closeModal('modalAuth')">✕</button></div>
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="tabRegister" onclick="App.switchAuthTab('register')">Crear cuenta</button>
+      <button class="auth-tab" id="tabLogin" onclick="App.switchAuthTab('login')">Iniciar sesión</button>
+    </div>
+
+    <div class="auth-panel" id="panelRegister">
+      <form onsubmit="return App.submitRegister(event)">
+        <div class="field"><label>Nombre</label><input type="text" id="regNombre" placeholder="Tu nombre" required></div>
+        <div class="field"><label>Correo electrónico</label><input type="email" id="regEmail" placeholder="tucorreo@ejemplo.com" required></div>
+        <div class="field"><label>Contraseña</label><input type="password" id="regPass" placeholder="Mínimo 6 caracteres" minlength="6" required></div>
+        <div class="field-error show" id="authErr1" style="display:none;"></div>
+        <button type="submit" class="btn btn-green btn-block">Crear cuenta gratis</button>
+      </form>
+      <p class="auth-note">Al crear tu cuenta, tu información quedará guardada de forma segura.</p>
+    </div>
+
+    <div class="auth-panel" id="panelLogin" hidden>
+      <form onsubmit="return App.submitLogin(event)">
+        <div class="field"><label>Correo electrónico</label><input type="email" id="loginEmail" placeholder="tucorreo@ejemplo.com" required></div>
+        <div class="field"><label>Contraseña</label><input type="password" id="loginPass" placeholder="Tu contraseña" required></div>
+        <div class="field-error show" id="authErr2" style="display:none;"></div>
+        <button type="submit" class="btn btn-green btn-block">Iniciar sesión</button>
+      </form>
+    </div>
+
+    <div class="auth-guest"><a onclick="App.closeModal('modalAuth')">Continuar sin cuenta por ahora</a></div>
+  </div>
+</div>
+
+<!-- MODAL: CHECKOUT PREMIUM (Stripe) -->
+<div class="modal-overlay" id="modalCheckout" hidden>
+  <div class="modal-card">
+    <div class="modal-handle"></div>
+    <div class="modal-head"><h3>Confirmar suscripción</h3><button class="modal-close" onclick="App.closeModal('modalCheckout')">✕</button></div>
+    <p style="font-size:13.5px; color:var(--ink-soft); margin-bottom:16px;" id="checkoutSummary">Plan Premium — $99 MXN / mes</p>
+    <div style="background:var(--bg-soft); border-radius:14px; padding:14px; font-size:12.5px; color:var(--ink-soft); margin-bottom:18px;">
+      🔒 El pago se procesa de forma segura con <b>Stripe</b>. Serás redirigido a la pantalla de pago oficial de Stripe.
+    </div>
+    <button class="btn btn-gold btn-block" onclick="App.confirmCheckout()">Continuar a pago seguro</button>
+    <button class="btn btn-ghost btn-block" onclick="App.closeModal('modalCheckout')">Cancelar</button>
+  </div>
+</div>
+
+<!-- Aviso sutil para crear cuenta -->
+<div class="signup-nudge" id="signupNudge" hidden>
+  <button class="sn-close" onclick="App.dismissNudge()">✕</button>
+  <div class="sn-icon">💾</div>
+  <div class="sn-body">
+    <div class="sn-title">Guarda tu progreso</div>
+    <div class="sn-text">Crea una cuenta gratis para no perder tu información si cambias de dispositivo.</div>
+    <div class="sn-actions">
+      <button class="btn btn-green btn-sm" onclick="App.dismissNudge(); App.openAuth('register');">Crear cuenta</button>
+      <button class="btn btn-ghost btn-sm" onclick="App.dismissNudge()">Ahora no</button>
+    </div>
+  </div>
+</div>
+
+<div id="toastContainer"></div>
 
 <div id="dots">
   <button class="dot active" onclick="goTo(0)" aria-label="Sección 1"></button>
@@ -789,6 +1700,847 @@
   });
 
   setActiveClasses();
+</script>
+
+<script>
+/* =====================================================================================
+   MINEGOCIO — LÓGICA DE LA APLICACIÓN
+   =====================================================================================
+   Este archivo funciona HOY MISMO en modo "demo" usando localStorage como base de
+   datos del navegador (no requiere servidor). Todas las funciones de datos están
+   agrupadas en el objeto DB (abajo) para que, cuando tengas tu servidor MySQL y tu
+   cuenta de Stripe listos, SOLO necesites:
+
+     1) Cambiar APP_CONFIG.USE_BACKEND a `true`.
+     2) Poner la URL de tu API en APP_CONFIG.BACKEND_URL.
+     3) Poner tus llaves de Stripe en APP_CONFIG.STRIPE_*.
+     4) Implementar en tu servidor los endpoints que ya están listados y comentados
+        dentro de cada función de DB (mismo nombre, mismo formato de respuesta).
+
+   No necesitas tocar el resto del código de pantallas/formularios: todas llaman a
+   DB.xxx(), nunca a localStorage directamente, así que el "cableado" ya está hecho.
+===================================================================================== */
+
+/* ---------------------------------------------------------------------------------
+   1) CONFIGURACIÓN DEL BACKEND (edítalo cuando tengas tu servidor)
+--------------------------------------------------------------------------------- */
+const APP_CONFIG = {
+  // Cuando tengas tu API en un servidor real (Node/PHP/Laravel + MySQL), cambia esto a true.
+  USE_BACKEND: false,
+
+  // URL base de tu API. Ejemplo: 'https://api.minegocio.com'
+  BACKEND_URL: 'https://TU-SERVIDOR.com/api',
+
+  // Llave PÚBLICA de Stripe (empieza con pk_...). La llave secreta (sk_...) NUNCA
+  // va en el navegador: esa vive únicamente en tu servidor.
+  STRIPE_PUBLISHABLE_KEY: 'pk_live_XXXXXXXXXXXXXXXXXXXXXXXX',
+
+  // IDs de los precios que crees en tu Dashboard de Stripe (Products > Pricing).
+  STRIPE_PRICE_MONTHLY: 'price_XXXXXXXXXXXXXXXXXXXXX',
+  STRIPE_PRICE_YEARLY:  'price_XXXXXXXXXXXXXXXXXXXXX',
+
+  PRICE_MONTHLY_LABEL: '$99 MXN / mes',
+  PRICE_YEARLY_LABEL:  '$990 MXN / año',
+};
+
+/* ---------------------------------------------------------------------------------
+   2) ESQUEMA DE BASE DE DATOS SUGERIDO (MySQL)
+   Copia esto en tu servidor para crear las tablas. Los nombres de campo coinciden
+   con lo que este front-end espera recibir/enviar cuando USE_BACKEND = true.
+
+   CREATE TABLE users (
+     id            INT AUTO_INCREMENT PRIMARY KEY,
+     name          VARCHAR(120) NOT NULL,
+     email         VARCHAR(160) UNIQUE NOT NULL,
+     password_hash VARCHAR(255) NOT NULL,       -- usa bcrypt en el servidor, nunca texto plano
+     created_at    DATETIME DEFAULT CURRENT_TIMESTAMP
+   );
+
+   CREATE TABLE businesses (
+     id          INT AUTO_INCREMENT PRIMARY KEY,
+     user_id     INT NOT NULL,
+     name        VARCHAR(160) DEFAULT 'Mi Negocio',
+     tipo        VARCHAR(80),
+     moneda      VARCHAR(5) DEFAULT '$',
+     usa_inventario TINYINT(1) DEFAULT 0,
+     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+   );
+
+   CREATE TABLE sales (
+     id          INT AUTO_INCREMENT PRIMARY KEY,
+     user_id     INT NOT NULL,
+     product_id  INT NULL,
+     amount      DECIMAL(10,2) NOT NULL,
+     description VARCHAR(255),
+     metodo_pago VARCHAR(40),
+     created_at  DATETIME DEFAULT CURRENT_TIMESTAMP,
+     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+   );
+
+   CREATE TABLE expenses (
+     id          INT AUTO_INCREMENT PRIMARY KEY,
+     user_id     INT NOT NULL,
+     amount      DECIMAL(10,2) NOT NULL,
+     description VARCHAR(255),
+     categoria   VARCHAR(60),
+     created_at  DATETIME DEFAULT CURRENT_TIMESTAMP,
+     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+   );
+
+   CREATE TABLE products (
+     id          INT AUTO_INCREMENT PRIMARY KEY,
+     user_id     INT NOT NULL,
+     name        VARCHAR(160) NOT NULL,
+     price       DECIMAL(10,2) NOT NULL,
+     stock       INT DEFAULT 0,
+     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+   );
+
+   CREATE TABLE subscriptions (
+     id                     INT AUTO_INCREMENT PRIMARY KEY,
+     user_id                INT NOT NULL,
+     stripe_customer_id     VARCHAR(120),
+     stripe_subscription_id VARCHAR(120),
+     plan                   VARCHAR(20),        -- 'monthly' | 'yearly'
+     status                 VARCHAR(30),        -- 'active' | 'canceled' | 'past_due'
+     current_period_end     DATETIME,
+     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+   );
+
+   ---------------------------------------------------------------------------------
+   3) ENDPOINTS QUE TU SERVIDOR DEBE EXPONER (formato sugerido)
+
+   POST  /api/auth/register      { name, email, password }        -> { token, user }
+   POST  /api/auth/login         { email, password }               -> { token, user }
+   GET   /api/auth/me            (con header Authorization)        -> { user, business, isPremium }
+   GET   /api/sales                                                -> [ {id, amount, description, ...} ]
+   POST  /api/sales              { amount, description, metodo }   -> { id, ... }
+   DELETE /api/sales/:id                                           -> { ok: true }
+   GET   /api/expenses / POST /api/expenses / DELETE /api/expenses/:id   (igual que sales)
+   GET   /api/products / POST /api/products / PUT /api/products/:id / DELETE /api/products/:id
+   PUT   /api/business           { name, tipo, moneda, usa_inventario }
+   POST  /api/billing/create-checkout-session   { plan: 'monthly'|'yearly' }  -> { url }
+        -> En tu servidor, usa el SDK de Stripe para crear la sesión y regresar la URL
+           de Stripe Checkout. El navegador solo hace: window.location = url;
+   POST  /api/billing/webhook   (Stripe llama aquí directo, no el navegador)
+        -> Escucha el evento 'checkout.session.completed' y ahí, en tu base de datos,
+           marca al usuario correspondiente como premium (status = 'active').
+   GET   /api/billing/status                                       -> { isPremium, plan, renewsAt }
+
+   4) INTEGRACIÓN DE STRIPE — RESUMEN
+   - El botón "Suscribirme" de este front-end llama a DB.billing.createCheckoutSession(plan).
+   - En modo demo (USE_BACKEND=false) esto solo simula el pago para que puedas probar la app.
+   - En producción (USE_BACKEND=true) esa función hará fetch a tu servidor, el servidor
+     crea la sesión de Stripe Checkout y regresa una URL; el navegador redirige ahí.
+   - Cuando el cliente paga, Stripe llama a tu webhook -> tu servidor marca isPremium=true
+     en tu base de datos -> la próxima vez que la app llame a /api/billing/status o
+     /api/auth/me, el usuario verá desbloqueadas las funciones premium automáticamente.
+===================================================================================== */
+
+/* ---------------------------------------------------------------------------------
+   3) CAPA DE DATOS (DB) — hoy usa localStorage, mañana puede usar tu API real.
+--------------------------------------------------------------------------------- */
+const LS_KEY = 'mn_state_v1';
+
+function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,7); }
+
+function defaultState(){
+  return {
+    session: { loggedIn:false, user:null, isGuest:true },
+    business: { name:'Mi Negocio', tipo:'Panadería / repostería', moneda:'$', usaInventario:true },
+    sales: [],
+    expenses: [],
+    products: [],
+    premium: { active:false, plan:null, renewsAt:null },
+    prefs: { notif:true, recordatorio:false },
+    users: [],           // usuarios "registrados" en modo demo (sustituir por tabla users real)
+    nudgeShown: false,
+    nudgeCount: 0,
+  };
+}
+
+let STATE = loadState();
+
+function loadState(){
+  try{
+    const raw = localStorage.getItem(LS_KEY);
+    if(!raw) return defaultState();
+    const parsed = JSON.parse(raw);
+    return Object.assign(defaultState(), parsed);
+  }catch(e){ return defaultState(); }
+}
+
+function saveState(){
+  try{ localStorage.setItem(LS_KEY, JSON.stringify(STATE)); }catch(e){ console.error('No se pudo guardar', e); }
+}
+
+/* Wrapper de "backend": cada método revisa APP_CONFIG.USE_BACKEND. Hoy siempre usa
+   localStorage; cuando actives tu servidor, sustituye el cuerpo `if(true)` por tus
+   propios fetch() (los endpoints ya están documentados arriba). */
+const DB = {
+  async listSales(){ return STATE.sales.slice().sort((a,b)=> b.date - a.date); },
+  async addSale(sale){
+    const item = Object.assign({ id: uid(), date: Date.now() }, sale);
+    STATE.sales.push(item);
+    if(item.productId){
+      const p = STATE.products.find(p=>p.id===item.productId);
+      if(p) p.stock = Math.max(0, (p.stock||0) - 1);
+    }
+    saveState();
+    return item;
+    // BACKEND REAL: return (await fetch(`${APP_CONFIG.BACKEND_URL}/sales`, {method:'POST', body: JSON.stringify(sale)})).json();
+  },
+  async deleteSale(id){ STATE.sales = STATE.sales.filter(s=>s.id!==id); saveState(); },
+
+  async listExpenses(){ return STATE.expenses.slice().sort((a,b)=> b.date - a.date); },
+  async addExpense(exp){
+    const item = Object.assign({ id: uid(), date: Date.now() }, exp);
+    STATE.expenses.push(item);
+    saveState();
+    return item;
+  },
+  async deleteExpense(id){ STATE.expenses = STATE.expenses.filter(e=>e.id!==id); saveState(); },
+
+  async listProducts(){ return STATE.products.slice(); },
+  async addProduct(p){ const item=Object.assign({id:uid()}, p); STATE.products.push(item); saveState(); return item; },
+  async updateProduct(id, patch){ const p=STATE.products.find(p=>p.id===id); if(p) Object.assign(p, patch); saveState(); return p; },
+  async deleteProduct(id){ STATE.products = STATE.products.filter(p=>p.id!==id); saveState(); },
+
+  async getBusiness(){ return STATE.business; },
+  async saveBusiness(b){ Object.assign(STATE.business, b); saveState(); },
+
+  billing: {
+    async getStatus(){ return STATE.premium; },
+    async createCheckoutSession(plan){
+      if(APP_CONFIG.USE_BACKEND){
+        // PRODUCCIÓN — descomenta y usa esto cuando tengas tu servidor:
+        // const res = await fetch(`${APP_CONFIG.BACKEND_URL}/billing/create-checkout-session`, {
+        //   method:'POST',
+        //   headers:{'Content-Type':'application/json', 'Authorization':`Bearer ${STATE.session.token}`},
+        //   body: JSON.stringify({ plan })
+        // });
+        // const data = await res.json();
+        // window.location = data.url; // Stripe Checkout
+        // return;
+        throw new Error('Configura tu servidor en APP_CONFIG.BACKEND_URL primero.');
+      }
+      // MODO DEMO: simula el pago exitoso localmente.
+      return new Promise(resolve=>{
+        setTimeout(()=>{
+          STATE.premium = { active:true, plan, renewsAt: Date.now() + (plan==='yearly'?365:30)*86400000 };
+          saveState();
+          resolve(STATE.premium);
+        }, 900);
+      });
+    }
+  },
+
+  auth: {
+    async register(name, email, password){
+      if(STATE.users.find(u=>u.email.toLowerCase()===email.toLowerCase())) throw new Error('Ese correo ya está registrado.');
+      const user = { id: uid(), name, email, password }; // DEMO: en tu servidor real, NUNCA guardes la contraseña así (usa bcrypt).
+      STATE.users.push(user);
+      STATE.session = { loggedIn:true, user:{id:user.id, name, email}, isGuest:false };
+      saveState();
+      return STATE.session.user;
+    },
+    async login(email, password){
+      const user = STATE.users.find(u=>u.email.toLowerCase()===email.toLowerCase() && u.password===password);
+      if(!user) throw new Error('Correo o contraseña incorrectos.');
+      STATE.session = { loggedIn:true, user:{id:user.id, name:user.name, email:user.email}, isGuest:false };
+      saveState();
+      return STATE.session.user;
+    },
+    async logout(){ STATE.session = { loggedIn:false, user:null, isGuest:true }; saveState(); }
+  }
+};
+
+/* ---------------------------------------------------------------------------------
+   4) UTILIDADES
+--------------------------------------------------------------------------------- */
+function money(n){
+  const curr = STATE.business.moneda || '$';
+  const val = Number(n||0);
+  return curr + val.toLocaleString('es-MX', {minimumFractionDigits:0, maximumFractionDigits: (val%1===0?0:2)});
+}
+function startOfDay(ts){ const d=new Date(ts); d.setHours(0,0,0,0); return d.getTime(); }
+function isToday(ts){ return startOfDay(ts) === startOfDay(Date.now()); }
+function isThisWeek(ts){ const now=new Date(); const day=(now.getDay()+6)%7; const monday=startOfDay(now.getTime())-day*86400000; return ts>=monday; }
+function isThisMonth(ts){ const d=new Date(ts), n=new Date(); return d.getFullYear()===n.getFullYear() && d.getMonth()===n.getMonth(); }
+function sum(arr){ return arr.reduce((a,b)=>a+Number(b.amount||0),0); }
+function escapeHtml(s){ return String(s==null?'':s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+function toast(msg, type){
+  const c = document.getElementById('toastContainer');
+  const el = document.createElement('div');
+  el.className = 'toast' + (type ? ' '+type : '');
+  el.textContent = msg;
+  c.appendChild(el);
+  setTimeout(()=>{ el.classList.add('out'); setTimeout(()=>el.remove(), 260); }, 2600);
+}
+
+/* ---------------------------------------------------------------------------------
+   5) MÓDULO PRINCIPAL DE LA APP (pantallas, navegación, formularios)
+--------------------------------------------------------------------------------- */
+const App = {
+  currentScreen: 'home',
+  ventasFiltro: 'hoy',
+  gastosFiltro: 'hoy',
+  selectedPlan: 'monthly',
+
+  enter(){
+    document.documentElement.classList.add('app-mode');
+    document.getElementById('viewport').style.display = 'none';
+    document.getElementById('dots').style.display = 'none';
+    document.getElementById('appRoot').hidden = false;
+    window.scrollTo(0,0);
+    this.refreshAll();
+    this.go('home');
+    this.maybeNudge(true);
+  },
+  exitToLanding(){
+    document.documentElement.classList.remove('app-mode');
+    document.getElementById('viewport').style.display = '';
+    document.getElementById('dots').style.display = '';
+    document.getElementById('appRoot').hidden = true;
+    window.scrollTo(0,0);
+  },
+
+  go(screen){
+    document.querySelectorAll('.screen').forEach(s=> s.hidden = (s.id !== 'screen-'+screen));
+    document.querySelectorAll('.nav-item[data-screen]').forEach(b=> b.classList.toggle('active', b.dataset.screen===screen));
+    document.querySelectorAll('.drawer-item[data-screen]').forEach(b=> b.classList.toggle('active', b.dataset.screen===screen));
+    this.currentScreen = screen;
+    document.getElementById('appBody').scrollTop = 0;
+    if(screen==='ventas') this.renderVentas();
+    if(screen==='gastos') this.renderGastos();
+    if(screen==='reportes') this.renderReportes();
+    if(screen==='productos') this.renderProductos();
+    if(screen==='cuenta') this.renderCuenta();
+    if(screen==='negocio') this.renderNegocio();
+    if(screen==='config') this.renderConfig();
+    if(screen==='premium') this.renderPremium();
+    if(screen==='ayuda') this.renderAyuda();
+  },
+
+  openDrawer(){
+    document.getElementById('drawerOverlay').hidden = false;
+    document.getElementById('drawer').hidden = false;
+    requestAnimationFrame(()=>{
+      document.getElementById('drawerOverlay').classList.add('show');
+      document.getElementById('drawer').classList.add('show');
+    });
+  },
+  closeDrawer(){
+    document.getElementById('drawerOverlay').classList.remove('show');
+    document.getElementById('drawer').classList.remove('show');
+    setTimeout(()=>{ document.getElementById('drawerOverlay').hidden = true; document.getElementById('drawer').hidden = true; }, 300);
+  },
+
+  openModal(id){
+    if(id==='modalVenta') this.prepVentaForm();
+    if(id==='modalGasto') this.prepGastoForm();
+    const el = document.getElementById(id);
+    el.hidden = false;
+    requestAnimationFrame(()=> el.classList.add('show'));
+  },
+  closeModal(id){
+    const el = document.getElementById(id);
+    el.classList.remove('show');
+    setTimeout(()=> el.hidden = true, 220);
+  },
+
+  openAuth(tab){ this.switchAuthTab(tab||'register'); this.openModal('modalAuth'); },
+  switchAuthTab(tab){
+    document.getElementById('tabRegister').classList.toggle('active', tab==='register');
+    document.getElementById('tabLogin').classList.toggle('active', tab==='login');
+    document.getElementById('panelRegister').hidden = tab!=='register';
+    document.getElementById('panelLogin').hidden = tab!=='login';
+    document.getElementById('authTitle').textContent = tab==='register' ? 'Crea tu cuenta' : 'Inicia sesión';
+  },
+
+  /* ---------- HOME ---------- */
+  refreshAll(){
+    const hr = new Date().getHours();
+    document.getElementById('greetTime').textContent = hr<12 ? 'días' : (hr<19 ? 'tardes' : 'noches');
+    document.getElementById('homeBizName').textContent = STATE.business.name || 'Mi Negocio';
+    document.getElementById('homeToday').textContent = 'Hoy es ' + new Date().toLocaleDateString('es-MX', {day:'numeric', month:'long', year:'numeric'});
+
+    const salesToday = STATE.sales.filter(s=>isToday(s.date));
+    const expToday = STATE.expenses.filter(e=>isToday(e.date));
+    const totalV = sum(salesToday), totalG = sum(expToday);
+    document.getElementById('statVentasHoy').textContent = money(totalV);
+    document.getElementById('statGastosHoy').textContent = money(totalG);
+    const gan = totalV - totalG;
+    const ganEl = document.getElementById('statGananciaHoy');
+    ganEl.textContent = money(gan);
+    ganEl.className = 'stat-value ' + (gan>=0?'positive':'negative');
+
+    // Movimientos recientes (últimos 5, ventas + gastos)
+    const recent = STATE.sales.map(s=>({...s, kind:'venta'}))
+      .concat(STATE.expenses.map(e=>({...e, kind:'gasto'})))
+      .sort((a,b)=>b.date-a.date).slice(0,5);
+    const box = document.getElementById('homeRecent');
+    if(!recent.length){
+      box.innerHTML = `<div class="empty-state"><div class="es-icon">🧾</div><p>Aún no tienes movimientos.<br>Registra tu primera venta o gasto.</p></div>`;
+    } else {
+      box.innerHTML = recent.map(r=> this.rowHtml(r)).join('');
+    }
+
+    this.updateDrawerAndAccount();
+    document.querySelectorAll('.js-productos-btn').forEach(el=> el.hidden = !STATE.business.usaInventario);
+    document.getElementById('cfgInventario').checked = !!STATE.business.usaInventario;
+  },
+
+  rowHtml(r){
+    const isVenta = r.kind==='venta';
+    return `<div class="list-row">
+      <div class="lr-icon" style="background:${isVenta?'var(--green-light)':'var(--red-light)'}">${isVenta?'📈':'📉'}</div>
+      <div class="lr-body">
+        <div class="lr-title">${escapeHtml(r.description || (isVenta?'Venta':'Gasto'))}</div>
+        <div class="lr-sub">${new Date(r.date).toLocaleString('es-MX',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}${r.metodo?' · '+escapeHtml(r.metodo):''}${r.categoria?' · '+escapeHtml(r.categoria):''}</div>
+      </div>
+      <div class="lr-amount ${isVenta?'pos':'neg'}">${isVenta?'+':'-'}${money(r.amount)}</div>
+      <button class="lr-del" title="Eliminar" onclick="App.deleteRow('${r.kind}','${r.id}')">✕</button>
+    </div>`;
+  },
+
+  deleteRow(kind, id){
+    if(!confirm('¿Eliminar este movimiento?')) return;
+    if(kind==='venta') DB.deleteSale(id); else DB.deleteExpense(id);
+    this.refreshAll();
+    if(this.currentScreen==='ventas') this.renderVentas();
+    if(this.currentScreen==='gastos') this.renderGastos();
+    toast('Movimiento eliminado');
+  },
+
+  /* ---------- VENTA: formulario ---------- */
+  prepVentaForm(){
+    document.getElementById('formVenta').reset();
+    document.getElementById('ventaMontoErr').classList.remove('show');
+    document.getElementById('ventaCurr').textContent = STATE.business.moneda || '$';
+    document.querySelectorAll('#ventaMetodo .chip-opt').forEach(b=> b.classList.toggle('sel', b===document.querySelector('#ventaMetodo .chip-opt')));
+    const wrap = document.getElementById('ventaProductoWrap');
+    const sel = document.getElementById('ventaProducto');
+    if(STATE.business.usaInventario && STATE.products.length){
+      wrap.hidden = false;
+      sel.innerHTML = '<option value="">— Sin producto —</option>' + STATE.products.map(p=>`<option value="${p.id}">${escapeHtml(p.name)} — ${money(p.price)} (stock: ${p.stock})</option>`).join('');
+    } else { wrap.hidden = true; }
+  },
+  onVentaProductoChange(){
+    const id = document.getElementById('ventaProducto').value;
+    const p = STATE.products.find(p=>p.id===id);
+    if(p) document.getElementById('ventaMonto').value = p.price;
+  },
+  async submitVenta(e){
+    e.preventDefault();
+    const monto = parseFloat(document.getElementById('ventaMonto').value);
+    if(!monto || monto<=0){ document.getElementById('ventaMontoErr').classList.add('show'); return false; }
+    const metodoBtn = document.querySelector('#ventaMetodo .chip-opt.sel');
+    await DB.addSale({
+      amount: monto,
+      description: document.getElementById('ventaDesc').value.trim(),
+      metodo: metodoBtn ? metodoBtn.dataset.v : 'Efectivo',
+      productId: document.getElementById('ventaProducto') ? document.getElementById('ventaProducto').value || null : null
+    });
+    this.closeModal('modalVenta');
+    this.refreshAll();
+    if(this.currentScreen==='ventas') this.renderVentas();
+    if(this.currentScreen==='productos') this.renderProductos();
+    toast('✅ Venta registrada correctamente', 'ok');
+    this.registerActivityForNudge();
+    return false;
+  },
+
+  /* ---------- GASTO: formulario ---------- */
+  prepGastoForm(){
+    document.getElementById('formGasto').reset();
+    document.getElementById('gastoMontoErr').classList.remove('show');
+    document.getElementById('gastoCurr').textContent = STATE.business.moneda || '$';
+  },
+  async submitGasto(e){
+    e.preventDefault();
+    const monto = parseFloat(document.getElementById('gastoMonto').value);
+    if(!monto || monto<=0){ document.getElementById('gastoMontoErr').classList.add('show'); return false; }
+    const catBtn = document.querySelector('#gastoCategoria .chip-opt.sel');
+    await DB.addExpense({
+      amount: monto,
+      description: document.getElementById('gastoDesc').value.trim(),
+      categoria: catBtn ? catBtn.dataset.v : 'Otro'
+    });
+    this.closeModal('modalGasto');
+    this.refreshAll();
+    if(this.currentScreen==='gastos') this.renderGastos();
+    toast('✅ Gasto registrado correctamente', 'ok');
+    this.registerActivityForNudge();
+    return false;
+  },
+
+  /* ---------- VENTAS screen ---------- */
+  renderVentas(){
+    const filterFn = { hoy:isToday, semana:isThisWeek, mes:isThisMonth, todo:()=>true }[this.ventasFiltro];
+    document.getElementById('ventasTotalHoy').textContent = money(sum(STATE.sales.filter(s=>isToday(s.date))));
+    document.getElementById('ventasTotalSemana').textContent = money(sum(STATE.sales.filter(s=>isThisWeek(s.date))));
+    document.getElementById('ventasTotalMes').textContent = money(sum(STATE.sales.filter(s=>isThisMonth(s.date))));
+    const list = STATE.sales.filter(s=>filterFn(s.date)).sort((a,b)=>b.date-a.date);
+    const box = document.getElementById('ventasLista');
+    box.innerHTML = list.length ? list.map(s=>this.rowHtml({...s, kind:'venta'})).join('')
+      : `<div class="empty-state"><div class="es-icon">🧾</div><p>No hay ventas en este periodo.</p></div>`;
+  },
+
+  /* ---------- GASTOS screen ---------- */
+  renderGastos(){
+    const filterFn = { hoy:isToday, semana:isThisWeek, mes:isThisMonth, todo:()=>true }[this.gastosFiltro];
+    document.getElementById('gastosTotalHoy').textContent = money(sum(STATE.expenses.filter(e=>isToday(e.date))));
+    document.getElementById('gastosTotalSemana').textContent = money(sum(STATE.expenses.filter(e=>isThisWeek(e.date))));
+    document.getElementById('gastosTotalMes').textContent = money(sum(STATE.expenses.filter(e=>isThisMonth(e.date))));
+    const list = STATE.expenses.filter(e=>filterFn(e.date)).sort((a,b)=>b.date-a.date);
+    const box = document.getElementById('gastosLista');
+    box.innerHTML = list.length ? list.map(e=>this.rowHtml({...e, kind:'gasto'})).join('')
+      : `<div class="empty-state"><div class="es-icon">🧾</div><p>No hay gastos en este periodo.</p></div>`;
+  },
+
+  /* ---------- REPORTES screen ---------- */
+  renderReportes(){
+    const days = [...Array(7)].map((_,i)=> startOfDay(Date.now()) - (6-i)*86400000);
+    const ventasPorDia = days.map(d=> sum(STATE.sales.filter(s=> startOfDay(s.date)===d)));
+    const gastosPorDia = days.map(d=> sum(STATE.expenses.filter(e=> startOfDay(e.date)===d)));
+    const totalV = ventasPorDia.reduce((a,b)=>a+b,0), totalG = gastosPorDia.reduce((a,b)=>a+b,0);
+    document.getElementById('repVentas7').textContent = money(totalV);
+    document.getElementById('repGastos7').textContent = money(totalG);
+    const gEl = document.getElementById('repGanancia7');
+    gEl.textContent = money(totalV-totalG);
+
+    this.drawChart(days, ventasPorDia, gastosPorDia);
+
+    const box = document.getElementById('repPremiumBox');
+    if(!STATE.premium.active){
+      box.innerHTML = `<div class="plan-card featured" style="margin-top:6px;">
+        <span class="lock-badge">🔒 PREMIUM</span>
+        <div class="pc-name" style="margin-top:10px;">Reportes por mes y exportables</div>
+        <p style="font-size:12.5px;color:var(--ink-soft);margin:6px 0 14px;">Con Premium ves el histórico completo de tu negocio, comparas meses y exportas todo a Excel.</p>
+        <button class="btn btn-gold btn-block" onclick="App.go('premium')">Ver Plan Premium</button>
+      </div>`;
+    } else {
+      box.innerHTML = `<div class="settings-row"><div><div class="sr-title">Exportar reporte completo</div><div class="sr-sub">Descarga tu historial en JSON</div></div><button class="btn btn-outline btn-sm" onclick="App.exportData()">Exportar</button></div>`;
+    }
+  },
+
+  drawChart(days, ventas, gastos){
+    const canvas = document.getElementById('repChart');
+    const ctx = canvas.getContext('2d');
+    const W = canvas.width, H = canvas.height;
+    ctx.clearRect(0,0,W,H);
+    const max = Math.max(1, ...ventas, ...gastos);
+    const padL=8, padB=26, padT=10, padR=8;
+    const chartW = W-padL-padR, chartH = H-padT-padB;
+    const groupW = chartW/days.length;
+    days.forEach((d,i)=>{
+      const bw = groupW*0.28;
+      const x0 = padL + i*groupW + groupW*0.16;
+      const hV = (ventas[i]/max)*chartH;
+      const hG = (gastos[i]/max)*chartH;
+      ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--green').trim() || '#16A34A';
+      ctx.fillRect(x0, padT+chartH-hV, bw, hV);
+      ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--red').trim() || '#E53E3E';
+      ctx.fillRect(x0+bw+4, padT+chartH-hG, bw, hG);
+      ctx.fillStyle = '#94A3B8';
+      ctx.font = '10px sans-serif';
+      ctx.textAlign = 'center';
+      const label = new Date(d).toLocaleDateString('es-MX',{weekday:'short'}).replace('.','');
+      ctx.fillText(label, x0+bw, H-8);
+    });
+  },
+
+  /* ---------- PRODUCTOS screen ---------- */
+  editingProductId: null,
+  renderProductos(){
+    const box = document.getElementById('productosLista');
+    if(!STATE.products.length){
+      box.innerHTML = `<div class="empty-state"><div class="es-icon">📦</div><p>Aún no tienes productos.<br>Agrega el primero para llevar tu inventario.</p></div>`;
+      return;
+    }
+    box.innerHTML = STATE.products.map(p=>`
+      <div class="list-row">
+        <div class="lr-icon" style="background:var(--green-light)">📦</div>
+        <div class="lr-body">
+          <div class="lr-title">${escapeHtml(p.name)}</div>
+          <div class="lr-sub">${money(p.price)} · Stock: ${p.stock}${p.stock<=3?' ⚠️ bajo':''}</div>
+        </div>
+        <button class="btn btn-outline btn-sm" onclick="App.editProducto('${p.id}')">Editar</button>
+        <button class="lr-del" onclick="App.deleteProducto('${p.id}')">✕</button>
+      </div>`).join('');
+  },
+  editProducto(id){
+    const p = STATE.products.find(p=>p.id===id);
+    if(!p) return;
+    this.editingProductId = id;
+    document.getElementById('productoModalTitle').textContent = 'Editar producto';
+    document.getElementById('productoId').value = id;
+    document.getElementById('productoNombre').value = p.name;
+    document.getElementById('productoPrecio').value = p.price;
+    document.getElementById('productoStock').value = p.stock;
+    this.openModal('modalProducto');
+  },
+  async deleteProducto(id){
+    if(!confirm('¿Eliminar este producto?')) return;
+    await DB.deleteProduct(id);
+    this.renderProductos();
+    toast('Producto eliminado');
+  },
+  async submitProducto(e){
+    e.preventDefault();
+    if(!STATE.premium.active && STATE.products.length>=10 && !this.editingProductId){
+      toast('El plan gratis permite hasta 10 productos. Actualiza a Premium.', 'err');
+      this.closeModal('modalProducto');
+      this.go('premium');
+      return false;
+    }
+    const data = {
+      name: document.getElementById('productoNombre').value.trim(),
+      price: parseFloat(document.getElementById('productoPrecio').value)||0,
+      stock: parseInt(document.getElementById('productoStock').value)||0
+    };
+    if(this.editingProductId){ await DB.updateProduct(this.editingProductId, data); }
+    else { await DB.addProduct(data); }
+    this.editingProductId = null;
+    document.getElementById('productoModalTitle').textContent = 'Agregar producto';
+    document.getElementById('formProducto').reset();
+    this.closeModal('modalProducto');
+    this.renderProductos();
+    toast('✅ Producto guardado', 'ok');
+    return false;
+  },
+
+  /* ---------- MI CUENTA ---------- */
+  renderCuenta(){
+    const s = STATE.session;
+    document.getElementById('cuentaLoggedOut').hidden = s.loggedIn;
+    document.getElementById('cuentaLoggedIn').hidden = !s.loggedIn;
+    if(s.loggedIn){
+      document.getElementById('cuentaNombre').value = s.user.name||'';
+      document.getElementById('cuentaEmail').value = s.user.email||'';
+      document.getElementById('cuentaTelefono').value = s.user.phone||'';
+      document.getElementById('cuentaAvatar').textContent = (s.user.name||'U').trim()[0].toUpperCase();
+    }
+  },
+  saveCuenta(){
+    if(!STATE.session.loggedIn) return;
+    STATE.session.user.name = document.getElementById('cuentaNombre').value.trim() || STATE.session.user.name;
+    STATE.session.user.email = document.getElementById('cuentaEmail').value.trim() || STATE.session.user.email;
+    STATE.session.user.phone = document.getElementById('cuentaTelefono').value.trim();
+    saveState();
+    this.updateDrawerAndAccount();
+    toast('✅ Datos guardados', 'ok');
+  },
+
+  /* ---------- MI NEGOCIO ---------- */
+  renderNegocio(){
+    document.getElementById('negNombre').value = STATE.business.name || '';
+    document.getElementById('negGiro').value = STATE.business.tipo || 'Panadería / repostería';
+    document.getElementById('negMoneda').value = STATE.business.moneda || '$';
+  },
+  async saveNegocio(){
+    await DB.saveBusiness({
+      name: document.getElementById('negNombre').value.trim() || 'Mi Negocio',
+      tipo: document.getElementById('negGiro').value,
+      moneda: document.getElementById('negMoneda').value
+    });
+    this.refreshAll();
+    toast('✅ Información del negocio actualizada', 'ok');
+  },
+
+  /* ---------- CONFIGURACIÓN ---------- */
+  renderConfig(){
+    document.getElementById('cfgInventario').checked = !!STATE.business.usaInventario;
+    document.getElementById('cfgNotif').checked = !!STATE.prefs.notif;
+    document.getElementById('cfgRecordatorio').checked = !!STATE.prefs.recordatorio;
+  },
+  async toggleInventario(val){
+    await DB.saveBusiness({ usaInventario: val });
+    document.querySelectorAll('.js-productos-btn').forEach(el=> el.hidden = !val);
+    toast(val ? '📦 Módulo de inventario activado' : 'Módulo de inventario desactivado');
+  },
+  saveConfig(){
+    STATE.prefs.notif = document.getElementById('cfgNotif').checked;
+    STATE.prefs.recordatorio = document.getElementById('cfgRecordatorio').checked;
+    saveState();
+    toast('Preferencias guardadas');
+  },
+  exportData(){
+    const blob = new Blob([JSON.stringify(STATE, null, 2)], {type:'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'minegocio-datos.json';
+    a.click();
+    URL.revokeObjectURL(url);
+  },
+  confirmResetData(){
+    if(!confirm('Esto borrará TODOS tus datos guardados en este dispositivo. ¿Continuar?')) return;
+    localStorage.removeItem(LS_KEY);
+    STATE = defaultState();
+    this.refreshAll();
+    this.go('home');
+    toast('Datos borrados');
+  },
+
+  /* ---------- PREMIUM / STRIPE ---------- */
+  selectPlan(plan, btn){
+    this.selectedPlan = plan;
+    document.querySelectorAll('#screen-premium .chip-opt').forEach(b=>b.classList.remove('sel'));
+    btn.classList.add('sel');
+    document.getElementById('premiumPrice').innerHTML = plan==='yearly'
+      ? APP_CONFIG.PRICE_YEARLY_LABEL.replace(' / año','') + ' <span>MXN / año</span>'
+      : APP_CONFIG.PRICE_MONTHLY_LABEL.replace(' MXN / mes','') + ' <span>MXN / mes</span>';
+    document.getElementById('premiumCta').setAttribute('onclick', `App.openCheckout('${plan}')`);
+  },
+  renderPremium(){
+    const active = STATE.premium.active;
+    document.getElementById('premiumSub').textContent = active
+      ? 'Ya tienes Premium activo. ¡Gracias por tu apoyo! 🎉'
+      : 'Desbloquea reportes avanzados, productos ilimitados y más.';
+    document.getElementById('planPremiumCard').style.display = active ? 'none' : 'block';
+    document.getElementById('planFreeCard').style.display = active ? 'none' : 'block';
+    if(active){
+      document.getElementById('planPremiumCard').style.display = 'block';
+      document.getElementById('premiumCta').textContent = 'Suscripción activa ✅';
+      document.getElementById('premiumCta').disabled = true;
+    }
+  },
+  openCheckout(plan){
+    this.selectedPlan = plan;
+    document.getElementById('checkoutSummary').textContent = 'Plan Premium — ' + (plan==='yearly' ? APP_CONFIG.PRICE_YEARLY_LABEL : APP_CONFIG.PRICE_MONTHLY_LABEL);
+    this.openModal('modalCheckout');
+  },
+  async confirmCheckout(){
+    try{
+      // En producción esto redirige a Stripe Checkout (ver DB.billing.createCheckoutSession).
+      await DB.billing.createCheckoutSession(this.selectedPlan);
+      this.closeModal('modalCheckout');
+      this.updateDrawerAndAccount();
+      this.renderPremium();
+      toast('🎉 ¡Premium activado! Ya tienes todo desbloqueado', 'ok');
+    }catch(err){
+      toast(err.message || 'No se pudo procesar el pago', 'err');
+    }
+  },
+
+  /* ---------- AYUDA ---------- */
+  faqs: [
+    {q:'¿Cómo registro una venta?', a:'Toca el botón verde "Registrar venta" en Inicio o en la sección Ventas, ingresa el monto y guarda.'},
+    {q:'¿Mis datos están seguros si no tengo cuenta?', a:'Se guardan en este dispositivo. Te recomendamos crear una cuenta gratis para respaldarlos y acceder desde otro celular o computadora.'},
+    {q:'¿Qué incluye el Plan Premium?', a:'Productos ilimitados, reportes con histórico completo, exportación de datos y soporte prioritario.'},
+    {q:'¿Puedo cancelar mi suscripción?', a:'Sí, puedes cancelarla cuando quieras desde Configuración > Plan Premium.'},
+    {q:'¿Cómo activo el inventario?', a:'Ve a Configuración y activa "Usar inventario". Aparecerá la sección Productos en el menú.'}
+  ],
+  renderAyuda(){
+    document.getElementById('faqList').innerHTML = this.faqs.map((f,i)=>`
+      <div class="faq-item" id="faq-${i}">
+        <div class="faq-q" onclick="App.toggleFaq(${i})"><span>${escapeHtml(f.q)}</span><svg class="fq-chev" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="#94A3B8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="faq-a">${escapeHtml(f.a)}</div>
+      </div>`).join('');
+  },
+  toggleFaq(i){ document.getElementById('faq-'+i).classList.toggle('open'); },
+  contactSupport(){ toast('📩 Escríbenos a soporte@minegocio.com'); },
+
+  /* ---------- AUTENTICACIÓN ---------- */
+  async submitRegister(e){
+    e.preventDefault();
+    const errBox = document.getElementById('authErr1');
+    errBox.style.display='none';
+    try{
+      await DB.auth.register(
+        document.getElementById('regNombre').value.trim(),
+        document.getElementById('regEmail').value.trim(),
+        document.getElementById('regPass').value
+      );
+      this.closeModal('modalAuth');
+      this.dismissNudge();
+      this.updateDrawerAndAccount();
+      this.renderCuenta();
+      toast('🎉 ¡Cuenta creada! Tu información ya está a salvo', 'ok');
+    }catch(err){ errBox.textContent = err.message; errBox.style.display='block'; }
+    return false;
+  },
+  async submitLogin(e){
+    e.preventDefault();
+    const errBox = document.getElementById('authErr2');
+    errBox.style.display='none';
+    try{
+      await DB.auth.login(document.getElementById('loginEmail').value.trim(), document.getElementById('loginPass').value);
+      this.closeModal('modalAuth');
+      this.dismissNudge();
+      this.updateDrawerAndAccount();
+      this.renderCuenta();
+      toast('👋 ¡Bienvenido de nuevo!', 'ok');
+    }catch(err){ errBox.textContent = err.message; errBox.style.display='block'; }
+    return false;
+  },
+  async logout(){
+    if(!confirm('¿Cerrar sesión?')) return;
+    await DB.auth.logout();
+    this.closeDrawer();
+    this.updateDrawerAndAccount();
+    this.go('home');
+    toast('Sesión cerrada');
+  },
+
+  updateDrawerAndAccount(){
+    const s = STATE.session;
+    document.getElementById('drawerName').textContent = s.loggedIn ? s.user.name : 'Invitado';
+    document.getElementById('drawerEmail').textContent = s.loggedIn ? s.user.email : 'Sin cuenta guardada';
+    document.getElementById('drawerAvatar').textContent = s.loggedIn ? (s.user.name||'U').trim()[0].toUpperCase() : '👤';
+    const planEl = document.getElementById('drawerPlan');
+    planEl.textContent = STATE.premium.active ? '⭐ Plan Premium' : 'Plan Gratis';
+    planEl.className = 'dh-plan ' + (STATE.premium.active ? 'premium' : 'free');
+    document.getElementById('accountBtn').classList.toggle('has-premium', STATE.premium.active);
+  },
+
+  /* ---------- AVISO SUTIL DE REGISTRO ---------- */
+  registerActivityForNudge(){
+    STATE.nudgeCount = (STATE.nudgeCount||0) + 1;
+    saveState();
+    if(!STATE.session.loggedIn && STATE.nudgeCount>=2 && !STATE.nudgeShown){
+      setTimeout(()=> this.showNudge(), 1400);
+    }
+  },
+  maybeNudge(onEnter){
+    if(onEnter) return; // en la entrada no molestamos; esperamos actividad real
+  },
+  showNudge(){
+    if(STATE.session.loggedIn) return;
+    STATE.nudgeShown = true; saveState();
+    document.getElementById('signupNudge').hidden = false;
+    requestAnimationFrame(()=> document.getElementById('signupNudge').classList.add('show'));
+  },
+  dismissNudge(){
+    const el = document.getElementById('signupNudge');
+    el.classList.remove('show');
+    setTimeout(()=> el.hidden = true, 450);
+  }
+};
+
+/* Chip selector genérico (venta/gasto) */
+document.addEventListener('click', function(e){
+  const chip = e.target.closest('.chip-opt');
+  if(chip && chip.parentElement && (chip.parentElement.id==='ventaMetodo' || chip.parentElement.id==='gastoCategoria')){
+    chip.parentElement.querySelectorAll('.chip-opt').forEach(c=>c.classList.remove('sel'));
+    chip.classList.add('sel');
+  }
+});
+
+/* Filtros de Ventas/Gastos */
+document.addEventListener('click', function(e){
+  const pill = e.target.closest('.pill');
+  if(!pill) return;
+  const parent = pill.parentElement;
+  parent.querySelectorAll('.pill').forEach(p=>p.classList.remove('active'));
+  pill.classList.add('active');
+  if(parent.id==='ventasFiltros'){ App.ventasFiltro = pill.dataset.f; App.renderVentas(); }
+  if(parent.id==='gastosFiltros'){ App.gastosFiltro = pill.dataset.f; App.renderGastos(); }
+});
+
+window.App = App;
 </script>
 
 </body>
